@@ -1,0 +1,12 @@
+CREATE TABLE Users (
+	UserID int NOT NULL,
+	LastName varchar(255) NOT NULL,
+	FirstName varchar(255) NOT NULL,
+	UserName varchar(255) NOT NULL,
+	Password varchar(255) NOT NULL,
+	Email varchar(255) NOT NULL,
+	Phone varchar(255) NOT NULL,
+	Following varray,
+	Followers varray,
+	PRIMARY KEY (ID)
+	);
