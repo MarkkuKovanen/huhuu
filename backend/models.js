@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-mongoose.connect('mongo://localhost/huhuu');
+mongoose.connect('mongodb://localhost/huhuu');
 
 const Schema = mongoose.Schema;
 
@@ -24,11 +24,16 @@ const post = new Schema({
         username: String,
         photo: String,
         id: Schema.Types.ObjectId
-    }
+    },
     message: String,
-    created: { Date,
+    created: { type: Date,
                default: Date.now },
-    modified: { Date,
+    modified: { type: Date,
                 default: Date.now},
     image: String
 });
+
+const User = mongoose.model('user', user);
+const Post = mongoose.model('post', post);
+
+module.exports = {User, Post};
