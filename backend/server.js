@@ -12,7 +12,7 @@ app.post('/api/user', (req, res, next) => {
         if (err) {
             console.log(err);
             res.status(500).json(err);
-            //Tuotannossa pitää miettiä kannattaako virhettä kerota ulos
+            //Tuotannossa pitää miettiä kannattaako virhettä kertoa ulos
             return;
         }
         res.json(user);
