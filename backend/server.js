@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
+
 app.use(bodyParser.json());
 
 const models = require('./models.js');
@@ -12,14 +13,13 @@ app.post('/api/user', (req, res, next) => {
         if (err) {
             console.log(err);
             res.status(500).json(err);
-            //Tuotannossa pitää miettiä kannattaako virhettä kertoa ulos
             return;
         }
         res.json(user);
     });
 });
 
-const server = app.listen(1234, () => {
+const server = app.listen(config.port, () => {
     console.log("Server running at port " + server.address().port);
 });
 
