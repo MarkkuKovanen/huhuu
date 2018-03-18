@@ -1,4 +1,5 @@
 {
     "mongodbUrl": "mongodb://localhost/huhuu",
+    "sessionSecret": "salt",
     "port": 1234
 }
