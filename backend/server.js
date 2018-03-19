@@ -7,6 +7,9 @@ const mongoose = require('mongoose');
 const config = require('./config.json');
 const userModel = require('./models/user.js');
 const postModel = require('./models/post.js');
+const userRouter = require("./userRouter");
+
+mongoose.Promise = global.Promise;
 
 const app = express();
 
