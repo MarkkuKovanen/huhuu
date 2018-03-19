@@ -3,10 +3,14 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const passportLocal = require('passport-local');
 const expressSession = require('express-session');
+const mongoose = require('mongoose');
 const config = require('./config.json');
-const models = require('./models.js');
+const userModel = require('./models/user.js');
+const postModel = require('./models/post.js');
 
 const app = express();
+
+mongoose.connect(config.mongodbUrl);
 
 app.use(expressSession({secret: config.sessionSecret}));
 app.use(passport.initialize());
@@ -19,14 +23,14 @@ passport.serializeUser(function(user, done) {
 
 
 passport.deserializeUser(function(id, done) {
-    models.User.findById(id, function(err, user) {
+    userModel.findById(id, function(err, user) {
         done(err, user);
     });
 });
 
 passport.use(new passportLocal.Strategy(
     (username, password, done) => {
-        models.User.findOne({ username: username }, (err, user) => {
+        userModel.findOne({ username: username }, (err, user) => {
             if (err) {
                 return done(err);
             }
@@ -52,7 +56,7 @@ app.post('/api/login',
 );
 
 app.post('/api/user', (req, res, next) => {
-    let user = new models.User(req.body);
+    let user = new userModel(req.body);
     user.save((err, user) => {
         if (err) {
             console.log(err);

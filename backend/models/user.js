@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
-const config = require('./config.json');
 const bcrypt = require('bcrypt-nodejs');
-
-mongoose.connect(config.mongodbUrl);
 
 const Schema = mongoose.Schema;
 
@@ -39,6 +36,4 @@ user.methods.comparePassword = function(password, callback) {
     });
 }
 
-const User = mongoose.model('user', user);
-
-module.exports = {User};
+module.exports = mongoose.model('user', user);;
