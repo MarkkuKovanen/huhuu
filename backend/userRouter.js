@@ -43,8 +43,8 @@ userRouter.get('/api/user', function (req, res, next) {
     });	
 });
 
-userRouter.get('/api/user/:id', function (req, res, next) {
-	userModel.find({username: userID}, function(err, user) {
+userRouter.get('/api/user/:username', function (req, res, next) {
+	userModel.find({username: req.params.username}, function(err, user) {
 		if (err) throw err;
 		console.log(user);
 		res.set('Access-Control-Allow-Origin','*');
@@ -53,8 +53,8 @@ userRouter.get('/api/user/:id', function (req, res, next) {
     });	
 });
 
-userRouter.delete('/user/:id', function(req, res, next) {
-	userModel.findOneAndRemove({username: userID}, function(err, user) {
+userRouter.delete('/api/user/:id', function(req, res, next) {
+	userModel.findOneAndRemove({_id: req.params.id}, function(err, user) {
 	if (err) throw err;
 	res.set('Access-Control-Allow-Origin','*');
 	res.json(user);

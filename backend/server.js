@@ -19,6 +19,7 @@ app.use(expressSession({secret: config.sessionSecret}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
+app.use(userRouter);
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);

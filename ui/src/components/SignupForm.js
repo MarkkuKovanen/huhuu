@@ -3,6 +3,25 @@ import InputBox from './InputBox';
 
 export default class SignupForm extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+            "username": "",
+            "name": "",
+            "email": "",
+            "phone": "",
+            "password": ""
+        }
+    }
+
+    changeUsername = (event) => {
+        if (event.target.name === "username") {
+            this.setState({
+                username: event.target.value
+            });
+        }
+    }
+    
 	render() {
 			
 	return(
