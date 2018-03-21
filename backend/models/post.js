@@ -5,7 +5,7 @@ const post = new Schema({
     user: {
         username: String,
         photo: String,
-        id: Schema.Types.ObjectId
+        //id: Schema.Types.ObjectId
     },
     message: String,
     created: { type: Date,

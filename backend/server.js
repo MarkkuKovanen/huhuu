@@ -8,6 +8,7 @@ const config = require('./config.json');
 const userModel = require('./models/user.js');
 const postModel = require('./models/post.js');
 const userRouter = require("./userRouter");
+const postRouter = require("./postRouter");
 
 mongoose.Promise = global.Promise;
 
@@ -20,6 +21,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(bodyParser.json());
 app.use(userRouter);
+app.use(postRouter);
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
