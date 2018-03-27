@@ -1,0 +1,22 @@
+.rows {
+	background-color: #335533;
+	background-size: cover;
+	text-align: right;
+	margin: auto;
+}
+
+.rows .row{
+	display: inline-block;
+	height: 2em;
+    font-size: 1.3em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+    border-radius: 10px;
+    border: 2px solid #335533;
+	background-color: #ffffff;
+	text-align: center;
+	justify-content: center;
+    
+}
