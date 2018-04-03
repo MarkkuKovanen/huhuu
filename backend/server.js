@@ -57,6 +57,7 @@ passport.use(new passportLocal.Strategy(
 app.post('/api/login',
          passport.authenticate('local'),
          (req, res) => {
+             console.log(req.session);
              res.json({"message": "login successful"});
          }
 );
