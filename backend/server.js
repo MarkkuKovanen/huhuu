@@ -57,10 +57,14 @@ passport.use(new passportLocal.Strategy(
 app.post('/api/login',
          passport.authenticate('local'),
          (req, res) => {
-             console.log(req.session);
              res.json({"message": "login successful"});
          }
 );
+
+app.post('/api/logout', (req, res) => {
+    req.logout();
+    res.json({"message": "test"});
+});
 
 app.post('/api/user', (req, res, next) => {
     let user = new userModel(req.body);

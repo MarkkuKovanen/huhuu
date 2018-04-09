@@ -14,6 +14,17 @@ export default class Container extends React.Component {
         }
     }
 
+    componentDidMount() {
+        let loginStatus = localStorage.getItem("loginStatus");
+        if (loginStatus === null) {
+            localStorage.setItem("loginStatus", "not logged");
+        } else if (loginStatus === 'logged') {
+            this.setState({
+                isLogged: true
+            });
+        }
+    }
+    
     onLogin = (user) => {
         let request = {
             method: "POST",
@@ -23,7 +34,24 @@ export default class Container extends React.Component {
         fetch("/api/login", request).then((response) => {
             if (response.ok) {
                 this.setState({isLogged: true});
-                console.log(this.state.isLogged);
+                localStorage.setItem("loginStatus", "logged");
+            }
+        });
+    }
+
+    onLogout = () => {
+        let request = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"}
+        }
+        console.log("onLogout");
+        fetch("/api/logout", request).then((response) => {
+            if (response.ok) {
+                localStorage.setItem("loginStatus", "not logged");
+                this.setState({
+                    isLogged: false
+                });
+                //this.transitionTo("/login");
             }
         });
     }
@@ -34,7 +62,10 @@ export default class Container extends React.Component {
                 <Route exact path="/"
                        render = {
                            () => this.state.isLogged ?
-                               <div><Header /><Main /></div> :
+                               <div>
+                                   <Header onLogout={this.onLogout} />
+                                   <Main />
+                               </div> :
                                <Redirect to="/login" />
                        }
                 />
