@@ -1,6 +1,5 @@
 import React from 'react';
 import InputBox from './InputBox';
-import {history} from 'react-router';
 
 export default class SignupForm extends React.Component {
 
@@ -24,7 +23,6 @@ export default class SignupForm extends React.Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        console.log("onSubmit");
         let user = {
             username: this.state.username,
             name: this.state.name,

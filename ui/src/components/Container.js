@@ -64,7 +64,8 @@ export default class Container extends React.Component {
         console.log(user);
         fetch("/api/user", request).then((response) => {
             if (response.ok) {
-                this.props.history.push("/login"); //not working
+                console.log(this.props);
+                window.location.href = "/";
             } else {
                 console.log(response.status.text);
             }
