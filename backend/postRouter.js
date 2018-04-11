@@ -28,7 +28,7 @@ postRouter.get('/api/post', function (req, res, next) {
 });
 
 postRouter.get('/api/post/:username', function (req, res, next) {
-	postModel.find({username: JSON.parse(user(req.params.username))}, function(err, posts) {
+	postModel.find({'user.username': req.params.username}, function(err, posts) {
 		if (err) throw err;
 		console.log(posts);
 		res.set('Access-Control-Allow-Origin','*');
