@@ -54,6 +54,22 @@ export default class Container extends React.Component {
             }
         });
     }
+
+    onRegister = (user) => {
+        let request = {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(user)
+        };
+        console.log(user);
+        fetch("/api/user", request).then((response) => {
+            if (response.ok) {
+                this.props.history.push("/login"); //not working
+            } else {
+                console.log(response.status.text);
+            }
+        });
+    }
     
     render() {
 	return(
@@ -77,7 +93,8 @@ export default class Container extends React.Component {
                 />
                 <Route exact path="/register"
                        render = {
-                           () =>  <SignupForm />
+                           () =>
+                               <SignupForm onRegister={this.onRegister} />
                        }
                 />
             </Switch>

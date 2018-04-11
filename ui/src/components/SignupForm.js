@@ -1,4 +1,6 @@
 import React from 'react';
+import InputBox from './InputBox';
+import {history} from 'react-router';
 
 export default class SignupForm extends React.Component {
 
@@ -10,7 +12,7 @@ export default class SignupForm extends React.Component {
             "email": "",
             "phone": "",
             "password": "",
-            "password2": ""
+            "password2": "",
         }
     }
 
@@ -18,42 +20,50 @@ export default class SignupForm extends React.Component {
         this.setState({
             [event.target.name]: event.target.value
         });
-        console.log(this.state);
     }
 
     onSubmit = (event) => {
         event.preventDefault();
-        
+        console.log("onSubmit");
+        let user = {
+            username: this.state.username,
+            name: this.state.name,
+            email: this.state.email,
+            phone: this.state.phone,
+            password: this.state.password
+        };
+        this.props.onRegister(user);
     }
     
     render() {	
 	return(
 	    <div>
 		<form class="register" onSubmit={this.onSubmit}>
-		    <input onChange={this.onChange}
-		           name="username"
-		           type="text"
-		           placeholder="Käyttäjätunnus" />
-		    <input onChange={this.onChange}
-                           name="name"
-                           type="text"
-                           placeholder="Nimi" />
-		    <input onChange={this.onChange}
-		           name="email"
-		           type="email"
-		           placeholder="Sähköpostiosoite" />
-		    <input onChange={this.onChange}
-		           name="phone"
-		           type="text"
-		           placeholder="Puhelinnumero" />
-		    <input onChange={this.onChange}
-		           name="password"
-		           type="password"
-		           placeholder="Salasana" />
-		    <input onChange={this.onChange}
-		           name="password2"
-		           type="password"
-		           placeholder="Vahvista salasana" />
+		    <InputBox onChange={this.onChange}
+		              name="username"
+		              type="text"
+		              label="Käyttäjätunnus" />
+		    <InputBox onChange={this.onChange}
+                              name="name"
+                              type="text"
+                              label="Nimi" />
+		    <InputBox onChange={this.onChange}
+		              name="email"
+		              type="email"
+		              label="Sähköpostiosoite" />
+		    <InputBox onChange={this.onChange}
+		              name="phone"
+		              type="text"
+		              label="Puhelinnumero" />
+		    <InputBox onChange={this.onChange}
+		              name="password"
+		              type="password"
+		              label="Salasana" />
+		    <InputBox onChange={this.onChange}
+		              name="password2"
+		              type="password"
+		              label="Vahvista salasana"
+                    />
 		    <input type="submit" value="Rekisteröi" />
                     <a href="/">Takaisin</a>
 		</form>

@@ -1,29 +1,24 @@
 import React from 'react';
 
 export default class InputBox extends React.Component {
-
+    
     render(){
-	let inputStyle ={
-	    height: '2em',
-	    margin: '5px',
-	    border: '2px solid #335533',
-	    fontFamily: 'sans-serif'
-	}
 	return(
-	    <div className="Input">
-	        <label htmlFor={this.props.id}>
-                    {this.props.placeholder}
-
+	    <div>
+	        <label htmlFor={this.props.name}>
+                    {this.props.label}
                 </label>
-                <br/>
-	        <input style={inputStyle}
-	               id={this.props.id}
+	        <input onChange={this.props.onChange}
+                       
+	               name={this.props.name}
 	               autoComplete="false"
 	               required
 	               type={this.props.type}
-	               placeholder={this.props.placeholder}
-	        />	
+	        />
+                <div class="formError">
+                    {this.props.error}
+                </div>
 	    </div>
-	)}
-
+	)
+    }
 }

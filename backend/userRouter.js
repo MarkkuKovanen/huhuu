@@ -12,7 +12,7 @@ userRouter.post('/api/user', (req, res, next) => {
             res.status(500).json(err);
             return;
         }
-        res.json(user);
+        res.json({"message": "success"});
     });
 });
 
