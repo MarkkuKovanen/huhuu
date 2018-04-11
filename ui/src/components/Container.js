@@ -1,9 +1,9 @@
 import React from 'react';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import Header from './Header';
 import Main from './Main';
-import Card from './Card';
 import Login from './Login';
+import Header from './Header';
+import SignupForm from './SignupForm';
 
 export default class Container extends React.Component {
 
@@ -51,7 +51,6 @@ export default class Container extends React.Component {
                 this.setState({
                     isLogged: false
                 });
-                //this.transitionTo("/login");
             }
         });
     }
@@ -74,6 +73,11 @@ export default class Container extends React.Component {
                            () => this.state.isLogged ?
                                <Redirect to="/" /> :
                                <Login onLogin={this.onLogin} />
+                       }
+                />
+                <Route exact path="/register"
+                       render = {
+                           () =>  <SignupForm />
                        }
                 />
             </Switch>

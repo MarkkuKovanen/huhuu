@@ -1,5 +1,4 @@
 import React from 'react';
-import InputBox from './InputBox';
 
 export default class SignupForm extends React.Component {
 
@@ -10,49 +9,55 @@ export default class SignupForm extends React.Component {
             "name": "",
             "email": "",
             "phone": "",
-            "password": ""
+            "password": "",
+            "password2": ""
         }
     }
 
-    changeUsername = (event) => {
-        if (event.target.name === "username") {
-            this.setState({
-                username: event.target.value
-            });
-        }
+    onChange = (event) => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+        console.log(this.state);
+    }
+
+    onSubmit = (event) => {
+        event.preventDefault();
+        
     }
     
-	render() {
-			
+    render() {	
 	return(
-		<div>
-		<form>
-			<InputBox
-				id="userName"
-				type="text"
-				placeholder="Käyttäjätunnus" />
-			<InputBox
-				id="name"
-				type="text"
-				placeholder="Nimi" />
-			<InputBox
-				id="email"
-				type="email"
-				placeholder="Sähköpostiosoite" />
-			<InputBox
-				id="phone"
-				type="text"
-				placeholder="Puhelinnumero" />
-			<InputBox
-				id="password"
-				type="password"
-				placeholder="Salasana" />
-			<InputBox
-				id="password"
-				type="password"
-				placeholder="Vahvista salasana" />
-			<button>Luo tili</button>
+	    <div>
+		<form class="register" onSubmit={this.onSubmit}>
+		    <input onChange={this.onChange}
+		           name="username"
+		           type="text"
+		           placeholder="Käyttäjätunnus" />
+		    <input onChange={this.onChange}
+                           name="name"
+                           type="text"
+                           placeholder="Nimi" />
+		    <input onChange={this.onChange}
+		           name="email"
+		           type="email"
+		           placeholder="Sähköpostiosoite" />
+		    <input onChange={this.onChange}
+		           name="phone"
+		           type="text"
+		           placeholder="Puhelinnumero" />
+		    <input onChange={this.onChange}
+		           name="password"
+		           type="password"
+		           placeholder="Salasana" />
+		    <input onChange={this.onChange}
+		           name="password2"
+		           type="password"
+		           placeholder="Vahvista salasana" />
+		    <input type="submit" value="Rekisteröi" />
+                    <a href="/">Takaisin</a>
 		</form>
-		</div>
-	)}
+	    </div>
+	)
+    }
 }
