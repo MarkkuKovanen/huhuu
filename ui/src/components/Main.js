@@ -1,5 +1,7 @@
 import React from 'react';
 import Card from './Card';
+import AddPost from './AddPost';
+
 
 export default class Container extends React.Component {
 
@@ -8,7 +10,8 @@ export default class Container extends React.Component {
         return (
             <div>
                 <Card />
-            </div>
+				<AddPost/>
+			</div>
         )
     }
 }

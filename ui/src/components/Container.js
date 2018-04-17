@@ -4,6 +4,7 @@ import Main from './Main';
 import Login from './Login';
 import Header from './Header';
 import SignupForm from './SignupForm';
+import AddPost from './AddPost';
 
 export default class Container extends React.Component {
 
@@ -71,8 +72,8 @@ export default class Container extends React.Component {
             }
         });
     }
-    
-    render() {
+	
+	render() {
 	return(
             <Switch>
                 <Route exact path="/"

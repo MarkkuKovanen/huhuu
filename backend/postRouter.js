@@ -2,11 +2,14 @@ let express = require("express");
 let mongoose = require("mongoose");
 let postModel = require("./models/post");
 let userModel = require("./models/user");
+let passport = require("passport");
 
 let postRouter = express.Router({mergeParams: true});
 
+function post(passport) {
 postRouter.post('/api/post', (req, res, next) => {
-    let post = new postModel(req.body);
+    console.log(req.user);
+	let post = new postModel(req.body);
     post.save((err, post) => {
         if (err) {
             console.log(err);
@@ -46,4 +49,6 @@ postRouter.delete('/api/post/:id', function(req, res, next) {
 	});
 });
 
-module.exports = postRouter;
+return postRouter;
+}
+module.exports = post;

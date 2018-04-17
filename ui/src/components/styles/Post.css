@@ -1,0 +1,26 @@
+.rowsPost {
+	text-align: left;
+	margin: auto;
+	border-radius: 3px;
+    border: 2px solid #335533;
+	width: 500px;
+	justify-content: left;
+	flex: 1;
+}
+
+.rowsPost .rowPost .img {
+	width: 30px;
+	height: 30px;
+}
+
+.rowsPost .rowPost{
+	display: inline-block;
+	height: 2em;
+    font-size: 1.3em;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+	margin-left: 0.5em;
+	margin-right: 0.5em;
+    background-color: #ffffff;
+	
+}

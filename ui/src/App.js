@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Container from './components/Container.js';
 
+
 class App extends Component {
     registerUser = () => {
         console.log("register");
@@ -10,7 +11,7 @@ class App extends Component {
     return (
       <div className="App">
           <Container history={this.props.history} />
-      </div>
+	  </div>
     );
   }
 }
