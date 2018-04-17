@@ -54,23 +54,6 @@ export default class Container extends React.Component {
             }
         });
     }
-
-    onRegister = (user) => {
-        let request = {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(user)
-        };
-        console.log(user);
-        fetch("/api/user", request).then((response) => {
-            if (response.ok) {
-                console.log(this.props);
-                window.location.href = "/";
-            } else {
-                console.log(response.status.text);
-            }
-        });
-    }
     
     render() {
 	return(

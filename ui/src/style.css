@@ -9,6 +9,10 @@ body {
     margin: 0;
 }
 
+div.formError {
+    color: red
+}
+
 div.login {
     text-align: center;
 }
