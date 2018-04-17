@@ -73,7 +73,8 @@ export default class Container extends React.Component {
         });
     }
 	
-	render() {
+	
+    render() {
 	return(
             <Switch>
                 <Route exact path="/"
