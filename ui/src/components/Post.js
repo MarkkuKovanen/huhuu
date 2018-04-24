@@ -17,9 +17,10 @@ export default class PostBox extends React.Component {
 		return(
 			<div className='rowsPost'>
 				<ul>
-					<li className='rowPost'><img src={avatar} width="50" height="50"/></li>
+					<li className='rowPost'><img src={this.props.photo} width="50" height="50"/></li>
 					<li className='rowPost'><h3>{this.props.username}</h3></li>
 					<li><p>{this.props.message}</p></li>
+					<li><p>{this.props.created}</p></li>
 				</ul>
 			</div>
 		)}

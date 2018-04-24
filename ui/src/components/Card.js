@@ -5,9 +5,6 @@ import CardTop from './CardTop';
 export default class Card extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state= {
-			userName:"Pentti Peruskäyttäjä"
-		}
 	}
 
 	
@@ -21,7 +18,7 @@ export default class Card extends React.Component {
 		return(
 			<div style={cardStyle}>
 			<CardTop/>
-			<CardBottom/>
+			<CardBottom username={this.props.username}/>
 			</div>
 		)}
 }

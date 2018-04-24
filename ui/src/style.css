@@ -204,3 +204,12 @@ div.like, div.share, div.comment {
     display: inline;
     margin-right: 1em;
 }
+
+.flex-container {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+}
+
+.flex-list { order: 4; }
+
