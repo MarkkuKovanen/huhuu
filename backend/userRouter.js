@@ -4,23 +4,18 @@ let userModel = require("./models/user");
 
 let userRouter = express.Router();
 
+// Register
 userRouter.post('/api/user', (req, res, next) => {
-    userModel.findOne({username: req.body.username}, function (err, user) {
-        if (user) {
-            console.log("Test");
-            return res.status(409).json({"message": "Username is already in use."});
-        } else {
-            let user = new userModel(req.body);
-            user.save((err, user) => {
-                if (err) {
-                    res.status(500).json(err);
-                    return;
-                } else {
-                    res.status(200).json({"message": "success"});
-                }
-            });
-        }
-    });
+    let user = new userModel({username: req.body.username});
+    userModel.register(user, req.body.password,
+                       function(err) {
+                           if (err) {
+                               console.log(err);
+                               return next(err);
+                           }
+                           res.json("register succesfull");
+                       }
+    );
 });
 
 userRouter.put("/api/user/:id", function(req,res) {

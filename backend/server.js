@@ -1,59 +1,56 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const passportLocal = require('passport-local');
-const expressSession = require('express-session');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const mongoose = require('mongoose');
+
+// Config
 const config = require('./config.json');
-const userModel = require('./models/user.js');
+
+// Models
+const User = require('./models/user.js');
 const postModel = require('./models/post.js');
-const userRouter = require("./userRouter");
-const post = require("./postRouter");
 
-mongoose.Promise = global.Promise;
-
+// Setup express
 const app = express();
+
+app.use(bodyParser.json());
+//app.use(cookieParser());
 
 mongoose.connect(config.mongodbUrl);
 
-app.use(expressSession({secret: config.sessionSecret}));
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(bodyParser.json());
-app.use(userRouter);
-app.use(post(passport));
-
-passport.serializeUser(function(user, done) {
-    done(null, user.id);
-});
-
-
-passport.deserializeUser(function(id, done) {
-    userModel.findById(id, function(err, user) {
-        done(err, user);
-    });
-});
-
-passport.use(new passportLocal.Strategy(
-    (username, password, done) => {
-        userModel.findOne({ username: username }, (err, user) => {
-            if (err) {
-                return done(err);
-            }
-            if (!user) {
-                return done(null, false, { message: "Incorrect username" });
-            }
-            user.comparePassword(password, (err, isMatch) => {
-                if (err) return done(err);
-                if (isMatch)
-                    return done(null, user);
-                else
-                    return done(null, false, { message: "Incorrect password" });
-            });
-        });
+app.use(session(
+    {
+        secret: config.sessionSecret,
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection
+        }),
+        cookie: {
+            httpOnly: false
+        },
+        saveUninitialized: false
     }
 ));
 
+
+// Setup passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.use(User.createStrategy());
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// Routes
+const userRouter = require("./userRouter");
+const postRouter = require("./postRouter");
+
+app.use(userRouter);
+app.use(postRouter);
+
+// Login
 app.post('/api/login',
          passport.authenticate('local'),
          (req, res) => {
@@ -61,24 +58,14 @@ app.post('/api/login',
          }
 );
 
+// Logout
 app.post('/api/logout', (req, res) => {
     req.logout();
-    res.json({"message": "test"});
+    res.json({"message": "logged out"});
 });
 
-app.post('/api/user', (req, res, next) => {
-    let user = new userModel(req.body);
-    user.save((err, user) => {
-        if (err) {
-            console.log(err);
-            res.status(500).json(err);
-            return;
-        }
-        res.json(user);
-    });
-});
-
-const server = app.listen(config.port, () => {
+// Start server
+let server = app.listen(config.port, () => {
     console.log("Server running at port " + server.address().port);
 });
 

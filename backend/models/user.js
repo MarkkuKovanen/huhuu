@@ -1,20 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt-nodejs');
+const passportLocalMongoose = require('passport-local-mongoose');
 
 const Schema = mongoose.Schema;
 
 const user = new Schema({
-    username: {
-        type: String,
-        required: true
-    },
     name: String,
     email: String,
     phone: String,
-    password: {
-        type: String,
-        required: true
-    },
     admin: Boolean,
     followed: [Schema.Types.ObjectId],
     followers: [Schema.Types.ObjectId],
@@ -23,23 +16,6 @@ const user = new Schema({
     posts: [Schema.Types.ObjectId]
 });
 
-user.pre('save', function(next) {
-    if (this.isModified || this.isNew) {
-        bcrypt.genSalt(10, (err, salt) => {
-            if (err) return next(err);
-            bcrypt.hash(this.password, salt, null, (err, hash) => {
-                this.password = hash;
-                return next();
-            });
-        });
-    } else return next();
-});
-
-user.methods.comparePassword = function(password, callback) {
-    bcrypt.compare(password, this.password, (err, isMatch) => {
-        if (err) return callback(err);
-        callback(null, isMatch);
-    });
-}
+user.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('user', user);;

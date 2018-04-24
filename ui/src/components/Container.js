@@ -29,6 +29,7 @@ export default class Container extends React.Component {
     onLogin = (user) => {
         let request = {
             method: "POST",
+            credentials: 'same-origin',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)
         }
