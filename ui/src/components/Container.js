@@ -11,7 +11,8 @@ export default class Container extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLogged: false
+            isLogged: false,
+			postList: []
         }
     }
 
@@ -24,7 +25,28 @@ export default class Container extends React.Component {
                 isLogged: true
             });
         }
+		this.getPostList();
     }
+	
+	getPostList = () => {
+		let onGetPostList = {
+			method:"GET",
+			headers:{"Content-Type":"application/json"}
+			}
+		fetch("/api/post", onGetPostList).then((response) => {
+			if (response.ok) {
+				response.json().then((data) => {
+					this.setState({
+						postList:data
+					})
+				})
+			} else {
+				console.log(response.statusText);
+			}
+			}).catch((error) => {
+				console.log(error);
+			})
+	}
     
     onLogin = (user) => {
         let request = {
@@ -83,7 +105,7 @@ export default class Container extends React.Component {
                            () => this.state.isLogged ?
                                <div>
                                    <Header onLogout={this.onLogout} />
-                                   <Main />
+                                   <Main postList ={this.state.postList}/>
                                </div> :
                                <Redirect to="/login" />
                        }
