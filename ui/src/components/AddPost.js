@@ -56,7 +56,7 @@ export default class AddPost extends React.Component {
         fetch("/api/post", request).then((response) => {
             if (response.ok) {
                 console.log(this.props);
-                //window.location.href = "/";
+                window.location.href = "/";
             } else {
                 console.log(response.status.text);
             }

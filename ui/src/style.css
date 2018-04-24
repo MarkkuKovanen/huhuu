@@ -205,11 +205,18 @@ div.like, div.share, div.comment {
     margin-right: 1em;
 }
 
-.flex-container {
+.flexContainer {
+	list-style: none;
 	display: flex;
-	flex-flow: row wrap;
+	flex-direction: row;
 	justify-content: space-between;
 }
 
-.flex-list { order: 4; }
+.flexCard { order: -1; }
+
+.flexAdd { order: 2; }
+	
+.flexList { 
+	align-self: bottom;
+	order: 5; }
 

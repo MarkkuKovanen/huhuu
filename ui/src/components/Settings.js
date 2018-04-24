@@ -48,7 +48,7 @@ export default class Settings extends React.Component {
 		              name="username"
 		              type="text"
 		              label="Käyttäjätunnus"
-                              error={this.state.usernameError} />
+                               />
 		    <InputBox onChange={this.onChange}
                               name="name"
                               type="text"
@@ -68,7 +68,7 @@ export default class Settings extends React.Component {
 		    <InputBox onChange={this.onChange}
 		              name="password2"
 		              type="password"
-                              error={this.state.passwordError}
+                              
 		              label="Vahvista salasana"
                     />
 		    <input type="submit" value="Päivitä tiedot" />

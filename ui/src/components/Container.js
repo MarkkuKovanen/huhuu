@@ -5,6 +5,7 @@ import Login from './Login';
 import Header from './Header';
 import SignupForm from './SignupForm';
 import AddPost from './AddPost';
+import Settings from './Settings';
 
 export default class Container extends React.Component {
 
@@ -110,6 +111,16 @@ export default class Container extends React.Component {
                                <Redirect to="/login" />
                        }
                 />
+				<Route exact path="/settings"
+						render = {
+							() => this.state.isLogged ?
+								<div>
+									<Header onLogout={this.onLogout} />
+									<Settings user ={this.props.user}/>
+								</div> :
+								<Redirect to="/login" />
+						}
+				/>
                 <Route exact path="/login"
                        render = {
                            () => this.state.isLogged ?
