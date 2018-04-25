@@ -8,7 +8,7 @@ const user = new Schema({
     name: String,
     email: String,
     phone: String,
-    admin: Boolean,
+    isAdmin: Boolean,
     followed: [Schema.Types.ObjectId],
     followers: [Schema.Types.ObjectId],
     photo: String,
