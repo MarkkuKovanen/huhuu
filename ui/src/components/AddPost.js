@@ -67,7 +67,8 @@ export default class AddPost extends React.Component {
 	return(
 	    <div>
 		<form onSubmit={this.onSubmit}> 
-		    <input type="text"
+		    <input class="post" 
+			type="text"
 			value={this.state.message}
 			placeholder="Sano jotakin"
 			onChange = {this.onChange}>

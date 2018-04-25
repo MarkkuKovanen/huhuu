@@ -10,12 +10,16 @@ export default class Container extends React.Component {
 
     render () {
         return (
-            <div>
-				<ul class ="flexContainer">
-                                    <li class ="flexCard"><Card user={this.props.user}/></li>
-				<li class ="flexAdd"><AddPost/></li>
-				<li class ="flexList"><PostList postList={this.props.postList} /></li>
-				</ul>
+            <div class="container">
+				<aside>
+					<Card user={this.props.user}/>
+				</aside>
+				<main>
+					<AddPost/>
+					<br/>
+					<br/>
+					<PostList class="postlist" postList={this.props.postList} />
+				</main>
 			</div>
         )
     }

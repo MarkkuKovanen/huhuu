@@ -19,8 +19,7 @@ render () {
 					/></td>
 				</tr>
 		)}
-			console.log(tempView)
-		
+			
 	return(
 		<div>
 			<center>
