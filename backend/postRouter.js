@@ -2,26 +2,25 @@ let express = require("express");
 let mongoose = require("mongoose");
 let postModel = require("./models/post");
 let userModel = require("./models/user");
+let auth = require("./authorize");
 
 let postRouter = express.Router({mergeParams: true});
 
-postRouter.post('/api/post', (req, res, next) => {
-    if (req.isAuthenticated()) {
-        let post = new postModel({
-            user: {
-                username: req.user.username
-            },
-            message: req.body.message
-        });
-        post.save((err, post) => {
-            if (err) {
-                console.log(err);
-                res.status(500).json(err);
-                return;
-            }
-            res.json(post);
-        });
-    }
+postRouter.post('/api/post', auth.isAuthenticated, (req, res) => {
+    let post = new postModel({
+        user: {
+            username: req.user.username
+        },
+        message: req.body.message
+    });
+    post.save((err, post) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json(err);
+            return;
+        }
+        res.json(post);
+    });
 });
 
 postRouter.get('/api/post', function (req, res, next) {

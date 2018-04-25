@@ -13,6 +13,8 @@ export default class InputBox extends React.Component {
 	               autoComplete="false"
 	               required
 	               type={this.props.type}
+                       value={this.props.value}
+                       placeholder={this.props.label}
 	        />
                 <div className="formError">
                     {this.props.error}

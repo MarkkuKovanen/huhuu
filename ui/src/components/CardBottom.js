@@ -15,7 +15,7 @@ export default class CardBottom extends React.Component {
 		};
 		return(
 			<div>
-			<p style={nameStyle}>{this.props.username}</p>
+			<p style={nameStyle}>{this.props.user.username}</p>
 			<p style={textStyle}>/*{this.props.esittelyTeksti}*/
 			Lorem ipsum dolor sit amet, 
 			consectetur adipiscing elit. Nunc suscipit orci 

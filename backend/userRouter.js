@@ -6,7 +6,7 @@ let userRouter = express.Router();
 
 // Register
 userRouter.post('/api/user', (req, res, next) => {
-    let user = new userModel({username: req.body.username});
+    let user = new userModel(req.body);
     userModel.register(user, req.body.password,
                        function(err) {
                            if (err) {

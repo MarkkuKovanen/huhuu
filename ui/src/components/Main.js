@@ -12,7 +12,7 @@ export default class Container extends React.Component {
         return (
             <div>
 				<ul class ="flexContainer">
-                <li class ="flexCard"><Card username={this.props.username}/></li>
+                                    <li class ="flexCard"><Card user={this.props.user}/></li>
 				<li class ="flexAdd"><AddPost/></li>
 				<li class ="flexList"><PostList postList={this.props.postList} /></li>
 				</ul>

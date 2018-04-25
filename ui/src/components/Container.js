@@ -13,41 +13,45 @@ export default class Container extends React.Component {
         super(props);
         this.state = {
             isLogged: false,
-			postList: []
+	    postList: [],
+            user: {}
         }
     }
 
     componentDidMount() {
         let loginStatus = localStorage.getItem("loginStatus");
-        if (loginStatus === null) {
-            localStorage.setItem("loginStatus", "not logged");
-        } else if (loginStatus === 'logged') {
-            this.setState({
-                isLogged: true
-            });
+        let sid = document.cookie;
+        if (document.cookie) {
+            let user = localStorage.getItem("user");
+            if (user) {
+                this.setState({
+                    isLogged: true,
+                    user: JSON.parse(user)
+                });
+            }
         }
-		this.getPostList();
+	this.getPostList();
     }
 	
-	getPostList = () => {
-		let onGetPostList = {
-			method:"GET",
-			headers:{"Content-Type":"application/json"}
-			}
-		fetch("/api/post", onGetPostList).then((response) => {
-			if (response.ok) {
-				response.json().then((data) => {
-					this.setState({
-						postList:data
-					})
-				})
-			} else {
-				console.log(response.statusText);
-			}
-			}).catch((error) => {
-				console.log(error);
-			})
+    getPostList = () => {
+	let onGetPostList = {
+	    method:"GET",
+	    headers:{"Content-Type":"application/json"}
 	}
+	fetch("/api/post", onGetPostList).then((response) => {
+	    if (response.ok) {
+		response.json().then((data) => {
+		    this.setState({
+			postList:data
+		    })
+		})
+	    } else {
+		console.log(response.statusText);
+	    }
+	}).catch((error) => {
+	    console.log(error);
+	})
+    }
     
     onLogin = (user) => {
         let request = {
@@ -58,8 +62,13 @@ export default class Container extends React.Component {
         }
         fetch("/api/login", request).then((response) => {
             if (response.ok) {
-                this.setState({isLogged: true});
-                localStorage.setItem("loginStatus", "logged");
+                response.json().then((data) => {
+                    localStorage.setItem("user", JSON.stringify(data));
+                    this.setState({
+                        isLogged: true,
+                        user: data
+                    });
+                });
             }
         });
     }
@@ -67,14 +76,15 @@ export default class Container extends React.Component {
     onLogout = () => {
         let request = {
             method: "POST",
+            credentials: 'same-origin',
             headers: {"Content-Type": "application/json"}
         }
-        console.log("onLogout");
         fetch("/api/logout", request).then((response) => {
             if (response.ok) {
-                localStorage.setItem("loginStatus", "not logged");
+                localStorage.removeItem("user");
                 this.setState({
-                    isLogged: false
+                    isLogged: false,
+                    user: {}
                 });
             }
         });
@@ -86,10 +96,8 @@ export default class Container extends React.Component {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)
         };
-        console.log(user);
         fetch("/api/user", request).then((response) => {
             if (response.ok) {
-                console.log(this.props);
                 window.location.href = "/";
             } else {
                 console.log(response.status.text);
@@ -106,7 +114,7 @@ export default class Container extends React.Component {
                            () => this.state.isLogged ?
                                <div>
                                    <Header onLogout={this.onLogout} />
-                                   <Main postList ={this.state.postList}/>
+                                   <Main user={this.state.user} postList ={this.state.postList}/>
                                </div> :
                                <Redirect to="/login" />
                        }
@@ -116,7 +124,7 @@ export default class Container extends React.Component {
 							() => this.state.isLogged ?
 								<div>
 									<Header onLogout={this.onLogout} />
-									<Settings user ={this.props.user}/>
+									<Settings user ={this.state.user}/>
 								</div> :
 								<Redirect to="/login" />
 						}

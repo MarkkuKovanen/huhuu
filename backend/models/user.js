@@ -11,7 +11,6 @@ const user = new Schema({
     admin: Boolean,
     followed: [Schema.Types.ObjectId],
     followers: [Schema.Types.ObjectId],
-    notifications: Boolean,
     photo: String,
     posts: [Schema.Types.ObjectId]
 });

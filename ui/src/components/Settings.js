@@ -40,7 +40,8 @@ export default class Settings extends React.Component {
         });
     }
     
-    render() {	
+    render() {
+        console.log(this.props.user);
 	return(
 	    <div>
 		<form class="register" onSubmit={this.onSubmit}>
@@ -48,19 +49,23 @@ export default class Settings extends React.Component {
 		              name="username"
 		              type="text"
 		              label="Käyttäjätunnus"
-                               />
+                              value={this.props.user.username}
+                    />
 		    <InputBox onChange={this.onChange}
                               name="name"
                               type="text"
-                              label="Nimi" />
+                              label="Nimi"
+                              value={this.props.user.name} />
 		    <InputBox onChange={this.onChange}
 		              name="email"
 		              type="email"
-		              label="Sähköpostiosoite" />
+		              label="Sähköpostiosoite"
+                              value={this.props.user.email} />
 		    <InputBox onChange={this.onChange}
 		              name="phone"
 		              type="text"
-		              label="Puhelinnumero" />
+		              label="Puhelinnumero"
+                              value={this.props.user.phone} />
 		    <InputBox onChange={this.onChange}
 		              name="password"
 		              type="password"
@@ -68,7 +73,7 @@ export default class Settings extends React.Component {
 		    <InputBox onChange={this.onChange}
 		              name="password2"
 		              type="password"
-                              
+                    
 		              label="Vahvista salasana"
                     />
 		    <input type="submit" value="Päivitä tiedot" />

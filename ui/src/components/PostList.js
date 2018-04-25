@@ -13,7 +13,7 @@ render () {
 				<tr>
 					<td><Post message={post.message} 
 							created={post.created}
-							username={post.username}
+							username={post.user.username}
 							photo={post.photo}
 							image={post.image}							
 					/></td>

@@ -29,7 +29,8 @@ app.use(session(
         cookie: {
             httpOnly: false
         },
-        saveUninitialized: false
+        saveUninitialized: false,
+        resave: false
     }
 ));
 
@@ -54,14 +55,24 @@ app.use(postRouter);
 app.post('/api/login',
          passport.authenticate('local'),
          (req, res) => {
-             res.json({"message": "login successful"});
+             console.log(req.user);
+             res.json({
+                 username: req.user.username,
+                 email: req.user.email,
+                 phone: req.user.phone,
+                 name: req.user.name,
+                 photo: req.user.photo,
+                 admin: req.user.admin
+             });
          }
 );
 
 // Logout
 app.post('/api/logout', (req, res) => {
-    req.logout();
-    res.json({"message": "logged out"});
+    req.session.destroy(function() {
+        res.clearCookie('connect.sid');
+        res.redirect("/");
+    });
 });
 
 // Start server
