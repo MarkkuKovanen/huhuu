@@ -3,6 +3,7 @@ const Schema = mongoose.Schema;
 
 const post = new Schema({
     user: {
+        _id: String,
         username: String,
         photo: String,
         //id: Schema.Types.ObjectId

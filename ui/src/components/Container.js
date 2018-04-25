@@ -36,6 +36,7 @@ export default class Container extends React.Component {
     getPostList = () => {
 	let onGetPostList = {
 	    method:"GET",
+            credentials: 'same-origin',
 	    headers:{"Content-Type":"application/json"}
 	}
 	fetch("/api/post", onGetPostList).then((response) => {

@@ -62,7 +62,7 @@ app.post('/api/login',
                  phone: req.user.phone,
                  name: req.user.name,
                  photo: req.user.photo,
-                 admin: req.user.admin
+                 isAdmin: req.user.isAdmin
              });
          }
 );

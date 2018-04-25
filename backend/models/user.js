@@ -10,6 +10,7 @@ const user = new Schema({
     phone: String,
 	introduction: String,
     admin: Boolean,
+    isAdmin: Boolean,
     followed: [Schema.Types.ObjectId],
     followers: [Schema.Types.ObjectId],
     photo: String,
