@@ -1,51 +1,26 @@
 import React from 'react';
+import {Form} from 'semantic-ui-react';
 
 export default class AddPost extends React.Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			"username":"",
-			"photo":"",
-			"message":"",
-			"created":"",
-			"modified":"",
-			"image":""
-		}	
-	}
+    constructor(props) {
+	super(props);
+	this.state = {
+            message: ""
+	}	
+    }
 	
-	onChange = (event) => {
+    onChange = (event, {name, value}) => {
         this.setState({
-            message: event.target.value,
-			created: Date.now()
+            [name]: value
         });
     }
 
-    /* onSubmit = (event) => {
-     *     event.preventDefault();
-     *     
-     *     let request = {
-     *         method: "GET",
-     *         credentials: 'include'
-     *     };
-     *     
-     *     fetch("/us", request).then((response) => {
-     *         if (response.ok) {
-     *             console.log(this.props);
-     *             //window.location.href = "/";
-     *         } else {
-     *             console.log(response.status.text);
-     *         }
-     *     });
-     * }
-     */
-    
     onSubmit = (event) => {
         event.preventDefault();
         let post = {
-            username: this.props.username,
-            message: this.state.message,
-        }
+            message: this.state.message
+        };
         let request = {
             method: "POST",
             headers: {"Content-Type": "application/json"},
@@ -53,6 +28,8 @@ export default class AddPost extends React.Component {
             body: JSON.stringify(post)
         };
 
+        console.log(request);
+        
         fetch("/api/post", request).then((response) => {
             if (response.ok) {
                 console.log(this.props);
@@ -65,16 +42,13 @@ export default class AddPost extends React.Component {
     
     render(){
 	return(
-	    <div>
-		<form onSubmit={this.onSubmit}> 
-		    <input type="text"
-			value={this.state.message}
-			placeholder="Sano jotakin"
-			onChange = {this.onChange}>
-		    </input><br/>
-		    <input type="submit" value="Lähetä" />
-		</form>
-	    </div>
+	    <Form onSubmit={this.onSubmit}>
+                <Form.TextArea name="message"
+                               value={this.state.message}
+                               onChange={this.onChange}
+                               placeholder='Sano jotakin...' />
+		<Form.Button content='Lähetä' />
+	    </Form>
 	);
-	}
+    }
 }

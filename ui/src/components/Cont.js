@@ -6,8 +6,9 @@ import Header from './Header';
 import SignupForm from './SignupForm';
 import AddPost from './AddPost';
 import Settings from './Settings';
+import { Container, Menu } from 'semantic-ui-react';
 
-export default class Container extends React.Component {
+export default class Cont extends React.Component {
 
     constructor(props) {
         super(props);
@@ -47,7 +48,7 @@ export default class Container extends React.Component {
 		    })
 		})
 	    } else {
-		console.log(response.statusText);
+		
 	    }
 	}).catch((error) => {
 	    console.log(error);
@@ -116,20 +117,21 @@ export default class Container extends React.Component {
                                <div>
                                    <Header onLogout={this.onLogout} />
                                    <Main user={this.state.user} postList ={this.state.postList}/>
-                               </div> :
+                               </div>:
+                               
                                <Redirect to="/login" />
                        }
                 />
-				<Route exact path="/settings"
-						render = {
-							() => this.state.isLogged ?
-								<div>
-									<Header onLogout={this.onLogout} />
-									<Settings user ={this.state.user}/>
-								</div> :
-								<Redirect to="/login" />
-						}
-				/>
+		<Route exact path="/settings"
+		render = {
+		    () => this.state.isLogged ?
+			<div>
+			    <Header onLogout={this.onLogout} />
+			    <Settings user ={this.state.user}/>
+			</div> :
+			<Redirect to="/login" />
+		}
+		/>
                 <Route exact path="/login"
                        render = {
                            () => this.state.isLogged ?

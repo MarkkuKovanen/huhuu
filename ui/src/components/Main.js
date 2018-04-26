@@ -1,22 +1,24 @@
 import React from 'react';
-import Card from './Card';
+import {Grid, Menu, Card, Image} from 'semantic-ui-react';
 import AddPost from './AddPost';
 import PostList from './PostList';
-import '../style.css';
+import UserInfo from './UserInfo';
 
-
-export default class Container extends React.Component {
-
+export default class Main extends React.Component {
 
     render () {
         return (
             <div>
-				<ul class ="flexContainer">
-                                    <li class ="flexCard"><Card user={this.props.user}/></li>
-				<li class ="flexAdd"><AddPost/></li>
-				<li class ="flexList"><PostList postList={this.props.postList} /></li>
-				</ul>
-			</div>
+                <Grid columns="2" stackable>
+                    <Grid.Column width="4">
+                        <UserInfo user={this.props.user} />
+                    </Grid.Column>
+                    <Grid.Column width="12">
+                        <AddPost />
+                        <PostList postList={this.props.postList} />
+                    </Grid.Column>
+                </Grid>
+	    </div>
         )
     }
 }

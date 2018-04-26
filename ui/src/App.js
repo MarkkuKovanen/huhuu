@@ -1,17 +1,14 @@
 import React, { Component } from 'react';
-import Container from './components/Container.js';
+import Cont from './components/Cont.js';
 
 
 class App extends Component {
-    registerUser = () => {
-        console.log("register");
-    }
     
     render() {
     return (
       <div className="App">
-          <Container history={this.props.history} />
-	  </div>
+          <Cont history={this.props.history} />
+      </div>
     );
   }
 }

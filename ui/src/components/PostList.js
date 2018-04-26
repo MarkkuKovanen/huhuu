@@ -1,40 +1,33 @@
 import React from 'react';
 import Post from './Post';
+import {Item} from 'semantic-ui-react';
+const prettyDate = require('pretty-date');
 
 export default class PostList extends React.Component {
 
-render () {
-		
-	let tempView = {}
-	if (this.props.postList.length === 0) {
-		tempView = <p>No posts to show</p>
-		} else {
-			tempView = this.props.postList.map((post) => 
-				<tr>
-					<td><Post message={post.message} 
-							created={post.created}
-							username={post.user.username}
-							photo={post.photo}
-							image={post.image}							
-					/></td>
-				</tr>
-		)}
-			console.log(tempView)
-		
-	return(
-		<div>
-			<center>
-			<table>
-				<thead>
-					<tr>
-						<th>New posts</th>
-					</tr>
-				</thead>
-				<tbody>
-					{tempView}
-				</tbody>
-			</table>
-			</center>
-		</div>
-	)}
+    render () {
+	
+        let posts = {}
+        if (this.props.postList.length === 0) {
+	    posts = <p>No posts to show</p>
+	} else {
+	    posts = this.props.postList.map((post) =>
+		<Item>
+                    <Item.Image size="mini" src={post.user.photo} />
+                    <Item.Content>
+                        <Item.Header>{post.user.username}</Item.Header>
+                        <Item.Meta>
+                            {prettyDate.format(new Date(post.created))}
+                        </Item.Meta>
+                        <Item.Description>{post.message}</Item.Description>
+                    </Item.Content>
+		</Item>
+	    )
+        }
+        
+        return(
+	    <Item.Group>
+	        {posts}
+	    </Item.Group>
+        )}
 }

@@ -1,5 +1,7 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
+import {Menu, Image, Container, Search} from 'semantic-ui-react';
+
 import './styles/Header.css';
 import logo from '../logo.svg';
 
@@ -11,26 +13,26 @@ export default class Header extends React.Component{
     
     render() {
 	return(
-	    <header>
-                <div class="logo">
-                    <img src={logo} />
-                    <h1>Huhuu</h1>
-                </div>
-		<ul class="menu">
-		    <li class="menu">
-                        <Link to="/">Etusivu</Link>
-                    </li>
-		    <li class="menu">
-                        <Link to="/settings">Asetukset</Link>
-                    </li>
-		    <li class="menu">
-                        <Link to="/"
-                              onClick={this.props.onLogout}>
-                            Kirjaudu ulos
-                        </Link>
-                    </li>
-		</ul>
-	    </header>
+	    <Menu inverted>
+                
+                <Menu.Item>
+                    <Link to="/">
+                        <h1>Huhuu</h1>
+                    </Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <Link to="/settings">Asetukset</Link>
+                </Menu.Item>
+                <Menu.Item>
+                    <Link to="/" onClick={this.props.onLogout}>
+                        Kirjaudu ulos
+                    </Link>
+                </Menu.Item>
+                <Menu.Item position="right">
+                    <Search>
+                    </Search>
+                </Menu.Item>
+	    </Menu>
 	)
     }
 }
