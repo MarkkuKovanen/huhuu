@@ -142,9 +142,10 @@ main {
     padding: 0.5em;
 }
 
-textarea {
-    border-radius: 10px;
-    margin-right: 0.5em;
+input.searchbutton {
+    background-color: white;
+    color: #335533;
+	font-size: 1.3em;
 }
 
 textarea:focus {
@@ -204,19 +205,4 @@ div.like, div.share, div.comment {
     display: inline;
     margin-right: 1em;
 }
-
-.flexContainer {
-	list-style: none;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-}
-
-.flexCard { order: -1; }
-
-.flexAdd { order: 2; }
-	
-.flexList { 
-	align-self: bottom;
-	order: 5; }
 

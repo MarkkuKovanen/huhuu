@@ -28,6 +28,7 @@ export default class Settings extends React.Component {
                 name: this.state.name,
                 email: this.state.email,
                 phone: this.state.phone,
+				introduction: this.state.introduction,
                 password: this.state.password
             })
         };
@@ -44,6 +45,7 @@ export default class Settings extends React.Component {
         console.log(this.props.user);
 	return(
 	    <div>
+		
 		<form class="register" onSubmit={this.onSubmit}>
 		    <InputBox onChange={this.onChange}
 		              name="username"
@@ -66,6 +68,11 @@ export default class Settings extends React.Component {
 		              type="text"
 		              label="Puhelinnumero"
                               value={this.props.user.phone} />
+			<InputBox onChange={this.onChange}
+                              name="introduction"
+                              type="text"
+                              label="Esittelyteksti"
+                              value={this.props.user.introduction} />				  
 		    <InputBox onChange={this.onChange}
 		              name="password"
 		              type="password"

@@ -2,15 +2,15 @@ import {Link} from 'react-router-dom';
 import React from 'react';
 import {Menu, Image, Container, Search} from 'semantic-ui-react';
 
-import './styles/Header.css';
 import logo from '../logo.svg';
 
 export default class Header extends React.Component{
 
-    constructor(props) {
-        super(props);
-    }
-    
+	constructor(props) {
+		super(props);
+	}
+
+	    
     render() {
 	return(
 	    <Menu inverted>

@@ -16,11 +16,7 @@ export default class CardBottom extends React.Component {
 		return(
 			<div>
 			<p style={nameStyle}>{this.props.user.username}</p>
-			<p style={textStyle}>/*{this.props.esittelyTeksti}*/
-			Lorem ipsum dolor sit amet, 
-			consectetur adipiscing elit. Nunc suscipit orci 
-			in lobortis mattis.
-			</p>
+			<p style={textStyle}>/{this.props.user.introduction}</p>
 			</div>
 		)
 	}

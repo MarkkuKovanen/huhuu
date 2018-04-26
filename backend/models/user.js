@@ -8,6 +8,8 @@ const user = new Schema({
     name: String,
     email: String,
     phone: String,
+	introduction: String,
+    admin: Boolean,
     isAdmin: Boolean,
     followed: [Schema.Types.ObjectId],
     followers: [Schema.Types.ObjectId],
