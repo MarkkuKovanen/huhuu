@@ -20,14 +20,7 @@ userRouter.post('/api/user', (req, res, next) => {
 });
 
 
-userRouter.put("/api/user/:id", function(req,res) {
-    let updatedUser = {
-	username:req.body.username,
-	name:req.body.name,
-	email:req.body.email,
-	phone:req.body.phone,
-	introduction:req.body.introduction,
-	password:req.body.password
+
 
 // Update user info
 userRouter.put("/api/user/:id", auth.isAuthenticated, function(req,res) {
@@ -37,6 +30,7 @@ userRouter.put("/api/user/:id", auth.isAuthenticated, function(req,res) {
 	    name:req.body.name,
 	    email:req.body.email,
 	    phone:req.body.phone,
+		introduction:req.body.introduction,
 	    password:req.body.password
         }
         userModel.findOneAndUpdate({'_id':req.params.id},updatedUser,{},function(err,item) {

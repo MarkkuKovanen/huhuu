@@ -7,13 +7,6 @@ export default class PostBox extends React.Component {
 	
 	
 	render() {
-		let nameStyle={fontFamily:"verdana",
-			fontWeight:"bold",
-			padding:10,
-			margin:10
-		};
-		
-					
 		return(
 			<div className='rowsPost'>
 				<ul style={{listStyleType:"none"}}>

@@ -20,25 +20,6 @@ export default class AddPost extends React.Component {
 			created: Date.now()
         });
     }
-
-    /* onSubmit = (event) => {
-     *     event.preventDefault();
-     *     
-     *     let request = {
-     *         method: "GET",
-     *         credentials: 'include'
-     *     };
-     *     
-     *     fetch("/us", request).then((response) => {
-     *         if (response.ok) {
-     *             console.log(this.props);
-     *             //window.location.href = "/";
-     *         } else {
-     *             console.log(response.status.text);
-     *         }
-     *     });
-     * }
-     */
     
     onSubmit = (event) => {
         event.preventDefault();

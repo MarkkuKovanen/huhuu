@@ -4,7 +4,6 @@ import Main from './Main';
 import Login from './Login';
 import Header from './Header';
 import SignupForm from './SignupForm';
-import AddPost from './AddPost';
 import Settings from './Settings';
 
 export default class Container extends React.Component {
