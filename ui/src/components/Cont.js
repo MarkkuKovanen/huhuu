@@ -14,7 +14,9 @@ export default class Cont extends React.Component {
         this.state = {
             isLogged: false,
 	    postList: [],
-            user: {}
+            user: {},
+			usersPostList: [],
+			displayedUser: {}
         }
     }
 
@@ -67,7 +69,8 @@ export default class Cont extends React.Component {
                     localStorage.setItem("user", JSON.stringify(data));
                     this.setState({
                         isLogged: true,
-                        user: data
+                        user: data,
+						displayedUser: data
                     });
                 });
             }
@@ -106,6 +109,49 @@ export default class Cont extends React.Component {
         });
     }
 	
+	getUsersPostList = (uname) => {
+		let onGetUsersPostList = {
+	    method:"GET",
+	    headers:{"Content-Type":"application/json"},
+		credentials: "same-origin"
+	}
+	fetch("/api/post/" + uname, onGetUsersPostList).then((response) => {
+	    if (response.ok) {
+		response.json().then((data) => {
+		    this.setState({
+			postList:data
+			})
+		console.log(data);
+		})
+	    } else {
+		console.log(response.statusText);
+	    }
+	}).catch((error) => {
+	    console.log(error);
+	})
+	}
+	
+	getSearchedUser = (uname) => {
+		let onGetSearchedUser = {
+	    method:"GET",
+	    headers:{"Content-Type":"application/json"},
+		credentials: "same-origin"
+	}
+	fetch("/api/user/" + uname, onGetSearchedUser).then((response) => {
+	    if (response.ok) {
+		response.json().then((data) => {
+		    this.setState({
+			displayedUser:data
+			})
+		console.log(data);
+		})
+	    } else {
+		console.log(response.statusText);
+	    }
+	}).catch((error) => {
+	    console.log(error);
+	})
+	}
 	
     render() {
 	return(
@@ -114,13 +160,17 @@ export default class Cont extends React.Component {
                        render = {
                            () => this.state.isLogged ?
                                <div>
-                                   <Header onLogout={this.onLogout} />
-                                   <Main user={this.state.user} postList ={this.state.postList}/>
+                                   <Header onLogout={this.onLogout}
+											onLogin={this.onLogin}
+										getSearchedUser ={this.getSearchedUser} 
+										getUsersPostList={this.getUsersPostList}/>
+                                   <Main user={this.state.displayedUser} postList ={this.state.postList}/>
                                </div>:
                                
                                <Redirect to="/login" />
                        }
                 />
+				
 		<Route exact path="/settings"
 		render = {
 		    () => this.state.isLogged ?

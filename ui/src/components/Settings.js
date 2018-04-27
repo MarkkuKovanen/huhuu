@@ -1,5 +1,5 @@
 import React from 'react';
-import InputBox from './InputBox';
+
 
 export default class Settings extends React.Component {
 
@@ -22,7 +22,8 @@ export default class Settings extends React.Component {
         }
         let request = {
             method: "PUT",
-            headers: {"Content-Type": "application/json"},
+			headers: {"Content-Type": "application/json"},
+			credentials: "same-origin",
             body: JSON.stringify({
                 username: this.state.username,
                 name: this.state.name,
@@ -32,7 +33,7 @@ export default class Settings extends React.Component {
                 password: this.state.password
             })
         };
-        fetch("/api/user", request).then((response) => {
+        fetch("/api/user/" + this.props.user.username, request).then((response) => {
             if (response.ok) {
                 window.location.href = "/settings";
             } else if (response.status === 409) {
@@ -44,48 +45,61 @@ export default class Settings extends React.Component {
     render() {
         console.log(this.props.user);
 	return(
-	    <div>
-		
-		<form class="register" onSubmit={this.onSubmit}>
-		    <InputBox onChange={this.onChange}
-		              name="username"
-		              type="text"
-		              label="Käyttäjätunnus"
-                              value={this.props.user.username}
-                    />
-		    <InputBox onChange={this.onChange}
-                              name="name"
-                              type="text"
-                              label="Nimi"
-                              value={this.props.user.name} />
-		    <InputBox onChange={this.onChange}
-		              name="email"
-		              type="email"
-		              label="Sähköpostiosoite"
-                              value={this.props.user.email} />
-		    <InputBox onChange={this.onChange}
-		              name="phone"
-		              type="text"
-		              label="Puhelinnumero"
-                              value={this.props.user.phone} />
-			<InputBox onChange={this.onChange}
-                              name="introduction"
-                              type="text"
-                              label="Esittelyteksti"
-                              value={this.props.user.introduction} />				  
-		    <InputBox onChange={this.onChange}
-		              name="password"
-		              type="password"
-		              label="Salasana" />
-		    <InputBox onChange={this.onChange}
-		              name="password2"
-		              type="password"
-                    
-		              label="Vahvista salasana"
-                    />
-		    <input type="submit" value="Päivitä tiedot" />
+	    <div class="ui center aligned grid">
+			<div class="column">
+                <h1 class="ui header">Huhuu</h1>
+					<div class="ui stacked segment">
+						<form class="ui large form" onSubmit={this.onSubmit}>
+							<label>Käyttäjätunnus</label>
+							<input onChange={this.onChange}
+								name="username"
+								type="text"
+								value={this.state.username}
+								required
+                              error={this.state.usernameError} />
+							<label>Nimi</label>
+							<input onChange={this.onChange}
+								name="name"
+								type="text"
+								value={this.state.name}
+								required />
+                            <label>Sähköpostiosoite</label>
+							<input onChange={this.onChange}
+								name="email"
+								type="email"
+								value={this.state.email}
+								required />
+							<label>Puhelinnumero</label>
+							<input onChange={this.onChange}
+								name="phone"
+								type="text"
+								value={this.state.phone}
+								required />
+							<label>Kirjoita itsestäsi lyhyt esittely</label>
+							<input onChange={this.onChange}
+								name="introduction"
+								type="text"
+								value={this.state.introduction}
+								required />
+							<label>Salasana</label>
+							<input onChange={this.onChange}
+								name="password"
+								type="password"
+								value={this.state.password}
+								required />
+							<label>Vahvista salasana</label>
+							<input onChange={this.onChange}
+								name="password"
+								type="password"
+								value={this.state.password2}
+								error={this.state.passwordError}
+								required />
+		    		<input type="submit" value="Päivitä tiedot" />
+					<br/>
                     <a href="/">Takaisin</a>
 		</form>
+		</div>
+		</div>
 	    </div>
 	)
     }
