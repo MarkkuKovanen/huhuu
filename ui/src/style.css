@@ -13,8 +13,12 @@ div.formError {
     color: red
 }
 
-div.login {
-    text-align: center;
+input.login {
+	margin-bottom: 5px;
+}
+
+div.column {
+    max-width: 500px;
 }
 
 h1.login {

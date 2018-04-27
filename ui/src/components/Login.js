@@ -1,4 +1,5 @@
 import React from 'react';
+import '../style.css';
 
 export default class Login extends React.Component {
 
@@ -6,8 +7,8 @@ export default class Login extends React.Component {
         super(props);
         this.state = {
             username: "",
-            password: ""
-        };
+            password: "",
+		};
     }
     
     onSubmit = (event) => {
@@ -28,16 +29,20 @@ export default class Login extends React.Component {
                 password: event.target.value
             });
     }
-    
+	
+	    
     render () {
         return (
-            <div class="login">
-                <h1 class="login">Huhuu</h1>
-                <form onSubmit={this.onSubmit}>
+            <div class="ui center aligned grid">
+				<div class="column">
+                <h1 class="ui header">Huhuu</h1>
+				 <div class="ui stacked segment">
+                <form class="ui large form" onSubmit={this.onSubmit}>
                     <input class="login"
                            placeholder="tunnus"
                            name="username"
                            type="text"
+						   value={this.state.username}
                            required
                            onChange={this.onChange} />
                     
@@ -45,6 +50,7 @@ export default class Login extends React.Component {
                            placeholder="salasana"
                            name="password"
                            type="password"
+						   value={this.state.password}
                            required
                            onChange={this.onChange} />
                     
@@ -53,6 +59,8 @@ export default class Login extends React.Component {
                            value="Kirjaudu" />
                     <a href="/register">Rekisteröi uusi käyttäjä</a>
                 </form>
+				</div>
+				</div>
             </div>
         )
     }

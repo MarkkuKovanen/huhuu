@@ -1,5 +1,5 @@
 import React from 'react';
-import InputBox from './InputBox';
+
 
 export default class SignupForm extends React.Component {
 
@@ -10,6 +10,7 @@ export default class SignupForm extends React.Component {
             name: "",
             email: "",
             phone: "",
+			introduction: "",
             password: "",
             password2: "",
             usernameError: "",
@@ -38,6 +39,7 @@ export default class SignupForm extends React.Component {
                 name: this.state.name,
                 email: this.state.email,
                 phone: this.state.phone,
+				introduction: this.state.introduction,
                 password: this.state.password
             })
         };
@@ -53,38 +55,61 @@ export default class SignupForm extends React.Component {
     
     render() {	
 	return(
-	    <div>
-		<form class="register" onSubmit={this.onSubmit}>
-		    <InputBox onChange={this.onChange}
-		              name="username"
-		              type="text"
-		              label="Käyttäjätunnus"
+	    <div class="ui center aligned grid">
+			<div class="column">
+                <h1 class="ui header">Huhuu</h1>
+					<div class="ui stacked segment">
+						<form class="ui large form" onSubmit={this.onSubmit}>
+							<label>Käyttäjätunnus</label>
+							<input onChange={this.onChange}
+								name="username"
+								type="text"
+								value={this.state.username}
+								required
                               error={this.state.usernameError} />
-		    <InputBox onChange={this.onChange}
-                              name="name"
-                              type="text"
-                              label="Nimi" />
-		    <InputBox onChange={this.onChange}
-		              name="email"
-		              type="email"
-		              label="Sähköpostiosoite" />
-		    <InputBox onChange={this.onChange}
-		              name="phone"
-		              type="text"
-		              label="Puhelinnumero" />
-		    <InputBox onChange={this.onChange}
-		              name="password"
-		              type="password"
-		              label="Salasana" />
-		    <InputBox onChange={this.onChange}
-		              name="password2"
-		              type="password"
-                              error={this.state.passwordError}
-		              label="Vahvista salasana"
-                    />
-		    <input type="submit" value="Rekisteröi" />
+							<label>Nimi</label>
+							<input onChange={this.onChange}
+								name="name"
+								type="text"
+								value={this.state.name}
+								required />
+                            <label>Sähköpostiosoite</label>
+							<input onChange={this.onChange}
+								name="email"
+								type="email"
+								value={this.state.email}
+								required />
+							<label>Puhelinnumero</label>
+							<input onChange={this.onChange}
+								name="phone"
+								type="text"
+								value={this.state.phone}
+								required />
+							<label>Kirjoita itsestäsi lyhyt esittely</label>
+							<input onChange={this.onChange}
+								name="introduction"
+								type="text"
+								value={this.state.introduction}
+								required />
+							<label>Salasana</label>
+							<input onChange={this.onChange}
+								name="password"
+								type="password"
+								value={this.state.password}
+								required />
+							<label>Vahvista salasana</label>
+							<input onChange={this.onChange}
+								name="password"
+								type="password"
+								value={this.state.password2}
+								error={this.state.passwordError}
+								required />
+		    		<input type="submit" value="Rekisteröi" />
+					<br/>
                     <a href="/">Takaisin</a>
 		</form>
+		</div>
+		</div>
 	    </div>
 	)
     }
