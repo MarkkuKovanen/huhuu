@@ -1,5 +1,6 @@
 import React from 'react';
-
+import {Form, Container} from 'semantic-ui-react';
+import {browserHistory} from 'react-router-dom';
 
 export default class SignupForm extends React.Component {
 
@@ -10,7 +11,7 @@ export default class SignupForm extends React.Component {
             name: "",
             email: "",
             phone: "",
-			introduction: "",
+	    introduction: "",
             password: "",
             password2: "",
             usernameError: "",
@@ -39,7 +40,7 @@ export default class SignupForm extends React.Component {
                 name: this.state.name,
                 email: this.state.email,
                 phone: this.state.phone,
-				introduction: this.state.introduction,
+		introduction: this.state.introduction,
                 password: this.state.password
             })
         };
@@ -55,62 +56,55 @@ export default class SignupForm extends React.Component {
     
     render() {	
 	return(
-	    <div class="ui center aligned grid">
-			<div class="column">
-                <h1 class="ui header">Huhuu</h1>
-					<div class="ui stacked segment">
-						<form class="ui large form" onSubmit={this.onSubmit}>
-							<label>Käyttäjätunnus</label>
-							<input onChange={this.onChange}
-								name="username"
-								type="text"
-								value={this.state.username}
-								required
-                              error={this.state.usernameError} />
-							<label>Nimi</label>
-							<input onChange={this.onChange}
-								name="name"
-								type="text"
-								value={this.state.name}
-								required />
-                            <label>Sähköpostiosoite</label>
-							<input onChange={this.onChange}
-								name="email"
-								type="email"
-								value={this.state.email}
-								required />
-							<label>Puhelinnumero</label>
-							<input onChange={this.onChange}
-								name="phone"
-								type="text"
-								value={this.state.phone}
-								required />
-							<label>Kirjoita itsestäsi lyhyt esittely</label>
-							<input onChange={this.onChange}
-								name="introduction"
-								type="text"
-								value={this.state.introduction}
-								required />
-							<label>Salasana</label>
-							<input onChange={this.onChange}
-								name="password"
-								type="password"
-								value={this.state.password}
-								required />
-							<label>Vahvista salasana</label>
-							<input onChange={this.onChange}
-								name="password"
-								type="password"
-								value={this.state.password2}
-								error={this.state.passwordError}
-								required />
-		    		<input type="submit" value="Rekisteröi" />
-					<br/>
-                    <a href="/">Takaisin</a>
-		</form>
-		</div>
-		</div>
-	    </div>
+	    <Container text>
+                <h1>Rekisteröi uusi käyttäjä</h1>
+	        <Form onSubmit={this.onSubmit}>
+                    <Form.Input onChange={this.onChange}
+	                        name="username"
+	                        type="text"
+                                label="Käyttäjätunnus"
+                                required
+	                        value={this.state.username} />
+                    <Form.Input onChange={this.onChange}
+	                        name="name"
+	                        type="text"
+                                label="Nimi"
+                                required
+	                        value={this.state.name} />
+                    <Form.Input onChange={this.onChange}
+	                        name="email"
+	                        type="email"
+                                label="Sähköpostiosoite"
+                                required
+	                        value={this.state.email} />
+	            <Form.Input onChange={this.onChange}
+	                        name="phone"
+	                        type="text"
+                                label="Puhelinnumero"
+                                required
+	                        value={this.state.phone} />
+	            <Form.TextArea onChange={this.onChange}
+	                           name="introduction"
+                                   label="Lyhyt esittely itsestäsi"
+	                           value={this.state.introduction} />
+                    <Form.Input onChange={this.onChange}
+	                        name="password"
+	                        type="password"
+                                label="Salasana"
+                                required
+	                        value={this.state.password} />
+                    <Form.Input onChange={this.onChange}
+	                        name="password2"
+	                        type="password"
+                                label="Toista salasana"
+                                required
+	                        value={this.state.password2} />
+	            <Form.Button color="green" type="submit" inline>Lähetä</Form.Button>
+	            <Form.Button color="red" onClick={() => {window.location.href = "/"}}>
+                        Takaisin
+                    </Form.Button>
+                </Form>
+	    </Container>
 	)
-    }
+            }
 }

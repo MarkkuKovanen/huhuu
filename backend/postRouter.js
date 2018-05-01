@@ -12,14 +12,13 @@ postRouter.post('/api/post', auth.isAuthenticated, (req, res) => {
         user: {
             _id: req.user._id,
             username: req.user.username,
-            photo: req.user.photo
         },
         message: req.body.message
     });
     post.save((err, post) => {
         if (err) {
             console.log(err);
-            res.status(500).json(err);
+            res.send(500);
             return;
         }
         res.json(post);

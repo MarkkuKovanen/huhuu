@@ -15,24 +15,24 @@ export default class Cont extends React.Component {
             isLogged: false,
 	    postList: [],
             user: {},
-			usersPostList: [],
-			displayedUser: {}
+	    usersPostList: [],
+	    displayedUser: {}
         }
     }
 
     componentDidMount() {
-        let loginStatus = localStorage.getItem("loginStatus");
-        let sid = document.cookie;
         if (document.cookie) {
             let user = localStorage.getItem("user");
             if (user) {
                 this.setState({
                     isLogged: true,
-                    user: JSON.parse(user)
+                    user: JSON.parse(user),
+                    displayedUser: JSON.parse(user)
                 });
+                console.log(user);
+                this.getPostList();
             }
         }
-	this.getPostList();
     }
 	
     getPostList = () => {
@@ -70,8 +70,9 @@ export default class Cont extends React.Component {
                     this.setState({
                         isLogged: true,
                         user: data,
-						displayedUser: data
+			displayedUser: data
                     });
+                    this.getPostList();
                 });
             }
         });
@@ -109,11 +110,11 @@ export default class Cont extends React.Component {
         });
     }
 	
-	getUsersPostList = (uname) => {
-		let onGetUsersPostList = {
+    getUsersPostList = (uname) => {
+	let onGetUsersPostList = {
 	    method:"GET",
 	    headers:{"Content-Type":"application/json"},
-		credentials: "same-origin"
+	    credentials: "same-origin"
 	}
 	fetch("/api/post/" + uname, onGetUsersPostList).then((response) => {
 	    if (response.ok) {
@@ -161,10 +162,11 @@ export default class Cont extends React.Component {
                            () => this.state.isLogged ?
                                <div>
                                    <Header onLogout={this.onLogout}
-											onLogin={this.onLogin}
-										getSearchedUser ={this.getSearchedUser} 
-										getUsersPostList={this.getUsersPostList}/>
-                                   <Main user={this.state.displayedUser} postList ={this.state.postList}/>
+				           onLogin={this.onLogin}
+				           getSearchedUser={this.getSearchedUser} 
+				           getUsersPostList={this.getUsersPostList}/>
+                                   <Main user={this.state.displayedUser}
+                                         postList ={this.state.postList}/>
                                </div>:
                                
                                <Redirect to="/login" />

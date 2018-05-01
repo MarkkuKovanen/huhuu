@@ -5,13 +5,11 @@ import avatar from '../avatar.jpg';
 export default class UserInfo extends React.Component {
     
     render () {
-        let photo = this.props.user.photo;
-        if (!photo) photo = avatar;
-        console.log("userinfo photo:");
-        console.log(photo);
+       
+        let picture = "/api/user/" + this.props.user.id + "/picture";
         return (
             <Card>
-                <Image src={photo} />
+                <Image src={picture} />
                 <Card.Content>
                     <Card.Header>
                         {this.props.user.name}

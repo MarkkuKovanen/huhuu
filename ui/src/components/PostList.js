@@ -13,7 +13,7 @@ export default class PostList extends React.Component {
 	} else {
 	    posts = this.props.postList.map((post) =>
 		<Item>
-                    <Item.Image size="mini" src={post.user.photo} />
+                    <Item.Image size="mini" src={"/api/user/" + post.user._id + "/picture"} />
                     <Item.Content>
                         <Item.Header>{post.user.username}</Item.Header>
                         <Item.Meta>

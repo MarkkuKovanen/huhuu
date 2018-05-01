@@ -1,5 +1,6 @@
 import React from 'react';
-import '../style.css';
+import {Container, Form} from 'semantic-ui-react';
+import {Link} from 'react-router-dom';
 
 export default class Login extends React.Component {
 
@@ -33,35 +34,31 @@ export default class Login extends React.Component {
 	    
     render () {
         return (
-            <div class="ui center aligned grid">
-				<div class="column">
-                <h1 class="ui header">Huhuu</h1>
-				 <div class="ui stacked segment">
-                <form class="ui large form" onSubmit={this.onSubmit}>
-                    <input class="login"
-                           placeholder="tunnus"
-                           name="username"
-                           type="text"
-						   value={this.state.username}
-                           required
-                           onChange={this.onChange} />
+            <Container text textAlign="center">
+
+                <h1>Huhuu</h1>
+
+                <Form size="large" onSubmit={this.onSubmit}>
+                    <Form.Input placeholder="tunnus"
+                                name="username"
+                                type="text"
+			        value={this.state.username}
+                                required
+                                onChange={this.onChange} />
                     
-                    <input class="login"
-                           placeholder="salasana"
-                           name="password"
-                           type="password"
-						   value={this.state.password}
-                           required
-                           onChange={this.onChange} />
+                    <Form.Input placeholder="salasana"
+                                name="password"
+                                type="password"
+			        value={this.state.password}
+                                required
+                                onChange={this.onChange} />
                     
-                    <input class="login"
-                           type="submit"
-                           value="Kirjaudu" />
-                    <a href="/register">Rekisteröi uusi käyttäjä</a>
-                </form>
-				</div>
-				</div>
-            </div>
+                    <Form.Button type="submit">
+                        Kirjaudu
+                    </Form.Button>
+                    <Link to="/register">Rekisteröi uusi käyttäjä</Link>
+                </Form>
+            </Container>
         )
     }
 }

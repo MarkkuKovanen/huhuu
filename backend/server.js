@@ -16,7 +16,6 @@ const postModel = require('./models/post.js');
 const app = express();
 
 app.use(bodyParser.json());
-//app.use(cookieParser());
 
 mongoose.connect(config.mongodbUrl);
 
@@ -47,9 +46,11 @@ passport.deserializeUser(User.deserializeUser());
 // Routes
 const userRouter = require("./userRouter");
 const postRouter = require("./postRouter");
+const photosRouter = require("./routes/photos");
 
 app.use(userRouter);
 app.use(postRouter);
+app.use("/api/photos", photosRouter);
 
 // Login
 app.post('/api/login',
@@ -57,11 +58,12 @@ app.post('/api/login',
          (req, res) => {
              console.log(req.user);
              res.json({
+                 id: req.user._id,
                  username: req.user.username,
                  email: req.user.email,
                  phone: req.user.phone,
                  name: req.user.name,
-                 photo: req.user.photo,
+                 introduction: req.user.introduction,
                  isAdmin: req.user.isAdmin
              });
          }
