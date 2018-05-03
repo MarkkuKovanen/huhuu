@@ -24,7 +24,7 @@ userRouter.post('/api/user', (req, res, next) => {
 
 // Update user info
 userRouter.put("/api/user/:id", auth.isAuthenticated, function(req,res) {
-    if (req.user.isAdmin || req.params.id === req.user._id) {
+    if (req.user.isAdmin || req.params.id == req.user._id) {
         let updatedUser = {
 	    username:req.body.username,
 	    name:req.body.name,

@@ -46,11 +46,11 @@ passport.deserializeUser(User.deserializeUser());
 // Routes
 const userRouter = require("./userRouter");
 const postRouter = require("./postRouter");
-const photosRouter = require("./routes/photos");
+
 
 app.use(userRouter);
 app.use(postRouter);
-app.use("/api/photos", photosRouter);
+
 
 // Login
 app.post('/api/login',

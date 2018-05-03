@@ -132,6 +132,7 @@ export default class Cont extends React.Component {
 	})
 	}
 	
+	
 	getSearchedUser = (uname) => {
 		let onGetSearchedUser = {
 	    method:"GET",

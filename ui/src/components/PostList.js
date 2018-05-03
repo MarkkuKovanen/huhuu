@@ -11,7 +11,7 @@ export default class PostList extends React.Component {
         if (this.props.postList.length === 0) {
 	    posts = <p>No posts to show</p>
 	} else {
-	    posts = this.props.postList.map((post) =>
+	    posts = this.props.postList.reverse().map((post) =>
 		<Item>
                     <Item.Image size="mini" src={"/api/user/" + post.user._id + "/picture"} />
                     <Item.Content>
@@ -26,7 +26,7 @@ export default class PostList extends React.Component {
         }
         
         return(
-	    <Item.Group>
+	    <Item.Group divided="true">
 	        {posts}
 	    </Item.Group>
         )}

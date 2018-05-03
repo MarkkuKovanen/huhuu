@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
-import {Menu, Image, Container, Search, Modal, Grid} from 'semantic-ui-react';
+import {Menu, Image, Container, Search, Form, Grid} from 'semantic-ui-react';
 import logo from '../logo.svg';
 import PostList from './PostList';
 import UserInfo from './UserInfo';
@@ -54,15 +54,17 @@ export default class Header extends React.Component{
                     </Link>
                 </Menu.Item>
                 <Menu.Item position="right">
-					<form onSubmit = {this.onSubmit}>
-						<Search
+					<Form onSubmit = {this.onSubmit}>
+						<Form.Group inline>
+						<Search noResultsDescription="No results should show up"
 							type="text"
 							placeholder="Hae käyttäjää"
 							value={this.state.uname}
 							onSearchChange = {this.onChange}>
 						</Search>
-						<input type="submit" value="Hae"/>
-					</form>
+						<Form.Button type="submit">Hae</Form.Button>
+						</Form.Group>
+					</Form>
 				</Menu.Item>
 	    </Menu>
       </div>

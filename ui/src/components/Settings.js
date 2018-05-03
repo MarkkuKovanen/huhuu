@@ -1,13 +1,13 @@
 import React from 'react';
 import Upload from './Upload';
-import {Button} from 'semantic-ui-react';
+import {Container, Form, Button, Message} from 'semantic-ui-react';
 
 export default class Settings extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            username: this.props.user.username,
+			username: this.props.user.username,
             name: this.props.user.name,
             phone: this.props.user.phone,
             email: this.props.user.email,
@@ -39,11 +39,11 @@ export default class Settings extends React.Component {
                 name: this.state.name,
                 email: this.state.email,
                 phone: this.state.phone,
-		introduction: this.state.introduction,
+				introduction: this.state.introduction,
                 password: this.state.password
             })
         };
-        fetch("/api/user/" + this.props.user.username, request).then((response) => {
+        fetch("/api/user/" + this.props.user.id, request).then((response) => {
             if (response.ok) {
                 window.location.href = "/settings";
             } else if (response.status === 409) {
@@ -55,63 +55,60 @@ export default class Settings extends React.Component {
     render() {
         console.log(this.props.user);
 	return(
-	    <div class="ui center aligned grid">
-		<div class="column">
-                    <h1 class="ui header">Huhuu</h1>
-		    <div class="ui stacked segment">
-                        <Upload user={this.props.user} trigger={<Button>Muokkaa profiilikuvaa</Button>} />
-			<form class="ui large form" onSubmit={this.onSubmit}>
-			    <label>Käyttäjätunnus</label>
-			    <input onChange={this.onChange}
-			           name="username"
-			           type="text"
-			           value={this.state.username}
-			           required
-                                   error={this.state.usernameError} />
-			    <label>Nimi</label>
-			    <input onChange={this.onChange}
-			           name="name"
-			           type="text"
-			           value={this.state.name}
-			           required />
-                            <label>Sähköpostiosoite</label>
-			    <input onChange={this.onChange}
-			           name="email"
-			           type="email"
-			           value={this.state.email}
-			           required />
-			    <label>Puhelinnumero</label>
-			    <input onChange={this.onChange}
-			           name="phone"
-			           type="text"
-			           value={this.state.phone}
-			           required />
-			    <label>Kirjoita itsestäsi lyhyt esittely</label>
-			    <input onChange={this.onChange}
-			           name="introduction"
-			           type="text"
-			           value={this.state.introduction}
-			           required />
-			    <label>Salasana</label>
-			    <input onChange={this.onChange}
-			           name="password"
-			           type="password"
-			           value={this.state.password}
-			           required />
-			    <label>Vahvista salasana</label>
-			    <input onChange={this.onChange}
-			           name="password"
+	    <Container text>
+			<h1>Asetukset</h1>
+			<Form onSubmit={this.onSubmit}>
+			    <Form.Input onChange={this.onChange}
+			        name="username"
+			        type="text"
+			        value={this.state.username}
+					label="Käyttäjätunnus"
+					required
+					error={this.state.usernameError} />
+			    <Form.Input onChange={this.onChange}
+			        name="name"
+			        type="text"
+			        value={this.state.name}
+					label="Nimi"
+			        required />
+                <Form.Input onChange={this.onChange}
+			        name="email"
+			        type="email"
+			        value={this.state.email}
+					label="Sähköpostiosoite"
+			        required />
+			    <Form.Input onChange={this.onChange}
+			        name="phone"
+			        type="text"
+			        value={this.state.phone}
+					label="Puhelinnumero"
+			        required />
+			    <Form.Field>
+				<Upload user={this.props.user} trigger={<Button>Vaihda profiilikuvaa</Button>} />
+				</Form.Field>
+				<Form.TextArea onChange={this.onChange}
+			        name="introduction"
+			        type="text"
+			        value={this.state.introduction}
+					label="Kirjoita itsestäsi lyhyt esittely"
+			        />
+				<Form.Input onChange={this.onChange}
+			        name="password"
+			        type="password"
+			        value={this.state.password}
+					label="Salasana"
+			        required />
+			    <Form.Input onChange={this.onChange}
+			           label="Vahvista salasana"
+					   name="password2"
 			           type="password"
 			           value={this.state.password2}
 			           error={this.state.passwordError}
-			           required />
-		    	    <input type="submit" value="Päivitä tiedot" />
+					   required />
+				<Form.Button color="green" type="submit">Päivitä tiedot</Form.Button>
 			    <br/>
-                            <a href="/">Takaisin</a>
-		        </form>
-		    </div>
-		</div>
-	    </div>
-	)
-    }
+                <a href="/">Takaisin</a>
+		    </Form>
+		</Container>    
+	)}
 }
