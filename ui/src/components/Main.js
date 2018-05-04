@@ -15,7 +15,10 @@ export default class Main extends React.Component {
                     </Grid.Column>
                     <Grid.Column width="12">
                         <AddPost />
-                        <PostList postList={this.props.postList} />
+                        <PostList postList={this.props.postList} 
+								getPostList={this.props.getPostList}
+								deletePost={this.props.deletePost}
+								user={this.props.user}/>
                     </Grid.Column>
                 </Grid>
 	    </div>

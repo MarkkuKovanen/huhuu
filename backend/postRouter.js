@@ -47,7 +47,7 @@ postRouter.delete('/api/post/:id', auth.isAuthenticated, function(req, res, next
     postModel.findOne({_id: req.params.id}, function(err, post) {
         if (err) throw err;
         if (!post) return res.send(404);
-        if (req.user.isAdmin || req.user._id === post.user._id) {
+        if (req.user.isAdmin || req.user._id == post.user._id) {
             postModel.findOneAndRemove({_id: req.params.id}, function(err, post) {
 	        if (err) throw err;
 	        res.send(200);

@@ -155,6 +155,23 @@ export default class Cont extends React.Component {
 	})
 	}
 	
+	deletePost = (id) => {
+		let onDeletePost = {
+            method: "DELETE",
+			headers: {"Content-Type": "application/json"},
+			credentials: "same-origin",
+        };
+        fetch("/api/post/" + id, onDeletePost).then((response) => {
+            if (response.ok) {
+				this.getPostList();
+            } else {
+			console.log(response.statusText);
+			}
+			}).catch((error) => {
+			console.log(error);
+			})
+	}
+	
     render() {
 	return(
             <Switch>
@@ -166,8 +183,10 @@ export default class Cont extends React.Component {
 				           onLogin={this.onLogin}
 				           getSearchedUser={this.getSearchedUser} 
 				           getUsersPostList={this.getUsersPostList}/>
-                                   <Main user={this.state.displayedUser}
-                                         postList ={this.state.postList}/>
+                                   <Main user={this.state.user}
+                                         postList ={this.state.postList}
+										 getPostList={this.getPostList}
+										 deletePost={this.deletePost}/>
                                </div>:
                                
                                <Redirect to="/login" />
