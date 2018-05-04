@@ -1,6 +1,5 @@
 import React from 'react';
 import {Form, Container} from 'semantic-ui-react';
-import {browserHistory} from 'react-router-dom';
 
 export default class SignupForm extends React.Component {
 

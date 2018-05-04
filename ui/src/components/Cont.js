@@ -5,21 +5,19 @@ import Login from './Login';
 import Header from './Header';
 import SignupForm from './SignupForm';
 import Settings from './Settings';
-import { Container, Menu } from 'semantic-ui-react';
+import {Container} from 'semantic-ui-react';
+import { withRouter } from "react-router-dom";
 
-export default class Cont extends React.Component {
+class Cont extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             isLogged: false,
-	    postList: [],
-            user: {},
-	    usersPostList: [],
-	    displayedUser: {}
+            user: undefined,
         }
     }
-
+    
     componentDidMount() {
         if (document.cookie) {
             let user = localStorage.getItem("user");
@@ -27,35 +25,11 @@ export default class Cont extends React.Component {
                 this.setState({
                     isLogged: true,
                     user: JSON.parse(user),
-                    displayedUser: JSON.parse(user)
                 });
-                console.log(user);
-                this.getPostList();
             }
         }
     }
-	
-    getPostList = () => {
-	let onGetPostList = {
-	    method:"GET",
-            credentials: 'same-origin',
-	    headers:{"Content-Type":"application/json"}
-	}
-	fetch("/api/post", onGetPostList).then((response) => {
-	    if (response.ok) {
-		response.json().then((data) => {
-		    this.setState({
-			postList:data
-		    })
-		})
-	    } else {
-		
-	    }
-	}).catch((error) => {
-	    console.log(error);
-	})
-    }
-    
+	    
     onLogin = (user) => {
         let request = {
             method: "POST",
@@ -70,7 +44,6 @@ export default class Cont extends React.Component {
                     this.setState({
                         isLogged: true,
                         user: data,
-			displayedUser: data
                     });
                     this.getPostList();
                 });
@@ -103,87 +76,28 @@ export default class Cont extends React.Component {
         };
         fetch("/api/user", request).then((response) => {
             if (response.ok) {
-                window.location.href = "/";
+                this.props.history.push("/");
             } else {
                 console.log(response.status.text);
             }
         });
     }
-	
-    getUsersPostList = (uname) => {
-	let onGetUsersPostList = {
-	    method:"GET",
-	    headers:{"Content-Type":"application/json"},
-	    credentials: "same-origin"
-	}
-	fetch("/api/post/" + uname, onGetUsersPostList).then((response) => {
-	    if (response.ok) {
-		response.json().then((data) => {
-		    this.setState({
-			postList:data
-			})
-		console.log(data);
-		})
-	    } else {
-		console.log(response.statusText);
-	    }
-	}).catch((error) => {
-	    console.log(error);
-	})
-	}
-	
-	
-	getSearchedUser = (uname) => {
-		let onGetSearchedUser = {
-	    method:"GET",
-	    headers:{"Content-Type":"application/json"},
-		credentials: "same-origin"
-	}
-	fetch("/api/user/" + uname, onGetSearchedUser).then((response) => {
-	    if (response.ok) {
-		response.json().then((data) => {
-		    this.setState({
-			displayedUser:data
-			})
-		console.log(data);
-		})
-	    } else {
-		console.log(response.statusText);
-	    }
-	}).catch((error) => {
-	    console.log(error);
-	})
-	}
-	
+
+    getSearchedUser = (uname) => {
+        this.props.history.push("/user/" + uname);
+    }
+    
+    mainRoute = ({match}) => {        
+        if (match.params.username) {
+            return ( <Main user={this.state.user} username={match.params.username} /> );
+        } else {
+            return (<Main user={this.state.user} username={this.state.user.username} feed />);
+        }
+    }
+
     render() {
 	return(
             <Switch>
-                <Route exact path="/"
-                       render = {
-                           () => this.state.isLogged ?
-                               <div>
-                                   <Header onLogout={this.onLogout}
-				           onLogin={this.onLogin}
-				           getSearchedUser={this.getSearchedUser} 
-				           getUsersPostList={this.getUsersPostList}/>
-                                   <Main user={this.state.displayedUser}
-                                         postList ={this.state.postList}/>
-                               </div>:
-                               
-                               <Redirect to="/login" />
-                       }
-                />
-				
-		<Route exact path="/settings"
-		render = {
-		    () => this.state.isLogged ?
-			<div>
-			    <Header onLogout={this.onLogout} />
-			    <Settings user ={this.state.user}/>
-			</div> :
-			<Redirect to="/login" />
-		}
-		/>
                 <Route exact path="/login"
                        render = {
                            () => this.state.isLogged ?
@@ -197,7 +111,29 @@ export default class Cont extends React.Component {
                                <SignupForm onRegister={this.onRegister} />
                        }
                 />
+                
+                <Route path="/"
+                       render = {
+                           () => this.state.isLogged ?
+                               <Container fluid>
+                                   <Header onLogout={this.onLogout}			
+				                    getSearchedUser={this.getSearchedUser}
+                                   />
+
+                                   <Switch>
+                                       <Route exact path="/settings" render={() => 
+                                           <Settings user={this.state.user}/>
+                                       } />
+                                       <Route exact path="/user/:username" render={this.mainRoute} />
+                                       <Route exact path="/" render={this.mainRoute} />
+                                   </Switch>
+                               </Container> :
+                               <Redirect to="/login" />
+                       }
+                />
             </Switch>
 	)
     }
 }
+
+export default withRouter(Cont);

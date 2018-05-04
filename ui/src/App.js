@@ -7,7 +7,7 @@ class App extends Component {
     render() {
     return (
       <div className="App">
-          <Cont history={this.props.history} />
+          <Cont />
       </div>
     );
   }

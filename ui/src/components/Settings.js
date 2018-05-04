@@ -1,6 +1,6 @@
 import React from 'react';
 import Upload from './Upload';
-import {Container, Form, Button, Message} from 'semantic-ui-react';
+import {Container, Form, Button} from 'semantic-ui-react';
 
 export default class Settings extends React.Component {
 

@@ -1,24 +1,30 @@
 import React from 'react';
-import {Grid, Menu, Card, Image} from 'semantic-ui-react';
+import {Grid, Divider, Container} from 'semantic-ui-react';
 import AddPost from './AddPost';
 import PostList from './PostList';
 import UserInfo from './UserInfo';
 
 export default class Main extends React.Component {
-
+    
     render () {
+        let newPost = "";
+        if (this.props.user.username === this.props.username) {
+            newPost = <AddPost />
+        }
         return (
-            <div>
+            <Container>
+                <Divider/>
                 <Grid columns="2" stackable>
                     <Grid.Column width="4">
-                        <UserInfo user={this.props.user} />
+                        <UserInfo username={this.props.username} />
                     </Grid.Column>
                     <Grid.Column width="12">
-                        <AddPost />
-                        <PostList postList={this.props.postList} />
+                        {newPost}
+                        <PostList username={this.props.username} feed={this.props.feed} />
                     </Grid.Column>
                 </Grid>
-	    </div>
+	    </Container>
         )
     }
 }
+
