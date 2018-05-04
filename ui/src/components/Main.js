@@ -20,7 +20,11 @@ export default class Main extends React.Component {
                     </Grid.Column>
                     <Grid.Column width="12">
                         {newPost}
-                        <PostList username={this.props.username} feed={this.props.feed} />
+                        <PostList deletePost={this.props.deletePost}
+                                  username={this.props.username}
+                                  feed={this.props.feed}
+                                  user={this.props.user}
+                        />
                     </Grid.Column>
                 </Grid>
 	    </Container>

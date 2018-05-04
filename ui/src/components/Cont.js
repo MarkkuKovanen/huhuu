@@ -89,12 +89,23 @@ class Cont extends React.Component {
     
     mainRoute = ({match}) => {        
         if (match.params.username) {
-            return ( <Main user={this.state.user} username={match.params.username} /> );
+            return (
+                <Main user={this.state.user}
+                      username={match.params.username}
+                      deletePost={this.deletePost}
+                />
+            );
         } else {
-            return (<Main user={this.state.user} username={this.state.user.username} feed />);
+            return (
+                <Main user={this.state.user}
+                      username={this.state.user.username}
+                      deletePost={this.deletePost}
+                      feed
+                />
+            );
         }
     }
-
+	
     render() {
 	return(
             <Switch>

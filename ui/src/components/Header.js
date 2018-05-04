@@ -48,11 +48,6 @@ export default class Header extends React.Component{
                                     Kirjaudu ulos
                                 </Link>
                             </Menu.Item>
-                            <Menu.Item>
-                                <Link to="/user/huhuilija">
-                                    Huhuilija
-                                </Link>
-                            </Menu.Item>
                             <Menu.Item position="right">
  				<Form onSubmit = {this.onSubmit}>
  				    <Form.Group inline>

@@ -50,6 +50,7 @@ export default class Settings extends React.Component {
                 this.setState({usernameError: "Käyttäjätunnus on varattu."});
             }
         });
+		
     }
     
     render() {
