@@ -8,7 +8,7 @@ const user = new Schema({
     name: String,
     email: String,
     phone: String,
-	introduction: String,
+    introduction: String,
     admin: Boolean,
     isAdmin: Boolean,
     followed: [Schema.Types.ObjectId],
@@ -16,6 +16,8 @@ const user = new Schema({
     photo: String,
     posts: [Schema.Types.ObjectId]
 });
+
+user.index({name: 'text', username: 'text', introduction: 'text'});
 
 user.plugin(passportLocalMongoose);
 

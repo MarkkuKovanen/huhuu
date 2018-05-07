@@ -9,29 +9,29 @@ export default class PostList extends React.Component {
     
     loadPostList() {
         let query = {
-	    method:"GET",
-	    headers:{"Content-Type":"application/json"},
-	    credentials: "same-origin"
-	}
+            method:"GET",
+            headers:{"Content-Type":"application/json"},
+            credentials: "same-origin"
+        }
         let url = "/api/post/";
         if (!this.state.feed) {
             url += this.state.username;
         }
         fetch(url, query).then((response) => {
-	    if (response.ok) {
-		response.json().then((data) => {
+            if (response.ok) {
+                response.json().then((data) => {
                     this.setState({
-		        postList: data
-		    });
-		})
-	    } else {
-		console.log(response.statusText);
-	    }
-	}).catch((error) => {
-	    console.log(error);
-	})
+                        postList: data
+                    });
+                })
+            } else {
+                console.log(response.statusText);
+            }
+        }).catch((error) => {
+            console.log(error);
+        })
     }
-	
+    
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.username !== prevState.username ||
             nextProps.feed !== prevState.feed) {
@@ -58,9 +58,9 @@ export default class PostList extends React.Component {
     showConfirm = () => this.setState({ isConfirmOpen: true })
     
     handleConfirm(id) {
-	return (event) => {
-	    event.preventDefault();
-	    this.setState({ open: false });
+        return (event) => {
+            event.preventDefault();
+            this.setState({ open: false });
 
             let onDeletePost = {
                 method: "DELETE",
@@ -76,7 +76,7 @@ export default class PostList extends React.Component {
             }).catch((error) => {
                 console.log(error);
             })
-	}
+        }
     }
 
     deletePost = (id) => {
@@ -98,45 +98,45 @@ export default class PostList extends React.Component {
                 marginRight: "auto"
             };
             if (this.state.postList.length === 0) {
-	        posts = <p>No posts to show</p>
-	    } else {
-	        posts = this.state.postList.reverse().map((post) =>
-		    <Item key={post._id}>
-                    <Item.Image size="mini" src={"/api/user/" + post.user._id + "/picture"} />
-                    <Item.Content>
-                    <Item.Header>
-                    <Link to={"/user/" + post.user.username}>{post.user.username}</Link>
-                    </Item.Header>
-                    <Item.Meta>
-                    {prettyDate.format(new Date(post.created))}
-                    </Item.Meta>
-                    <Item.Description>{post.message}</Item.Description>
-                    {this.props.user.id === post.user._id &&
-                     <Item.Extra>
-                         <div>
-			     <Button onClick={this.showConfirm}
-			             floated="right"
-			             color="red"
-			             icon="remove"
-			             size="mini"/>
-			     <Confirm style={fixModal}
-				      open={this.state.isConfirmOpen}
-				      onCancel={this.handleCancel}
-				      onConfirm={this.handleConfirm(post._id)} 
-				      header="Olet poistamassa tämän huhuilun"
-				      content="Oletko varma?"
-				      size="small"/>
-			 </div>
-		     </Item.Extra>
-                    }
-                    </Item.Content>
-		    </Item>
-	        )
-                    }       
+                posts = <p>No posts to show</p>
+            } else {
+                posts = this.state.postList.reverse().map((post) =>
+                    <Item key={post._id}>
+                        <Item.Image size="mini" src={"/api/user/" + post.user._id + "/picture"} />
+                        <Item.Content>
+                            <Item.Header>
+                                <Link to={"/user/" + post.user.username}>{post.user.username}</Link>
+                            </Item.Header>
+                            <Item.Meta>
+                                {prettyDate.format(new Date(post.created))}
+                            </Item.Meta>
+                            <Item.Description>{post.message}</Item.Description>
+                            {this.props.user.id === post.user._id &&
+                             <Item.Extra>
+                                 <div>
+                                     <Button onClick={this.showConfirm}
+                                             floated="right"
+                                             color="red"
+                                             icon="remove"
+                                             size="mini"/>
+                                     <Confirm style={fixModal}
+                                              open={this.state.isConfirmOpen}
+                                              onCancel={this.handleCancel}
+                                              onConfirm={this.handleConfirm(post._id)} 
+                                              header="Olet poistamassa tämän huhuilun"
+                                              content="Oletko varma?"
+                                              size="small"/>
+                                 </div>
+                             </Item.Extra>
+                            }
+                        </Item.Content>
+                    </Item>
+                )
+            }       
             return(
-	        <Item.Group divided>
-	            {posts}
-	        </Item.Group>
+                <Item.Group divided>
+                    {posts}
+                </Item.Group>
             )}
     }
 }
