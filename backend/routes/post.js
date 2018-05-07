@@ -1,13 +1,13 @@
 let express = require("express");
 let mongoose = require("mongoose");
-let postModel = require("./models/post");
-let userModel = require("./models/user");
-let auth = require("./authorize");
+let postModel = require("../models/post");
+let userModel = require("../models/user");
+let auth = require("../authorize");
 
 let postRouter = express.Router({mergeParams: true});
 
 // Create a new post
-postRouter.post('/api/post', auth.isAuthenticated, (req, res) => {
+postRouter.post('/', auth.isAuthenticated, (req, res) => {
     let post = new postModel({
         user: {
             _id: req.user._id,
@@ -27,7 +27,7 @@ postRouter.post('/api/post', auth.isAuthenticated, (req, res) => {
 
 
 // Get all posts
-postRouter.get('/api/post', auth.isAuthenticated, function (req, res, next) {
+postRouter.get('/', auth.isAuthenticated, function (req, res, next) {
     postModel.find(function(err, posts) {
 	if (err) throw err;
 	res.json(posts);
@@ -35,7 +35,7 @@ postRouter.get('/api/post', auth.isAuthenticated, function (req, res, next) {
 });
 
 // Get all posts of a user
-postRouter.get('/api/post/:username', auth.isAuthenticated, function (req, res, next) {
+postRouter.get('/:username', auth.isAuthenticated, function (req, res, next) {
     postModel.find({'user.username': req.params.username}, function(err, posts) {
 	if (err) throw err;
 	res.json(posts);
@@ -43,7 +43,7 @@ postRouter.get('/api/post/:username', auth.isAuthenticated, function (req, res, 
 });
 
 // Delete post
-postRouter.delete('/api/post/:id', auth.isAuthenticated, function(req, res, next) {
+postRouter.delete('/:id', auth.isAuthenticated, function(req, res, next) {
     postModel.findOne({_id: req.params.id}, function(err, post) {
         if (err) throw err;
         if (!post) return res.send(404);

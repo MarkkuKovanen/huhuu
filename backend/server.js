@@ -44,12 +44,12 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 // Routes
-const userRouter = require("./userRouter");
-const postRouter = require("./postRouter");
+const userRouter = require("./routes/user");
+const postRouter = require("./routes/post");
 const searchRouter = require("./routes/search");
 
-app.use(userRouter);
-app.use(postRouter);
+app.use("/api/user", userRouter);
+app.use("/api/post", postRouter);
 app.use("/api/search", searchRouter);
 
 
