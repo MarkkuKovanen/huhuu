@@ -4,11 +4,11 @@ Huhuu is a microblog made with ReactJS, NodeJS and Mongoose where you can write 
 
 ## TO-DO:
 
-- [] search using tags
-- [] follow other users
-- [] comment on posts
-- [] publish media
+- [ ] search using tags
+- [ ] follow other users
+- [ ] comment on posts
+- [ ] publish media
 
 ## Credits
 
-Made by @MarkkuKovanen @matiasjhamalainen 
+Made by @MarkkuKovanen @matiasjhamalainen and Markus Mikkilä 
