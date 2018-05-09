@@ -1,6 +1,6 @@
 import React from 'react';
 import Upload from './Upload';
-import {Container, Form, Button} from 'semantic-ui-react';
+import {Container, Form, Button, Confirm, Image} from 'semantic-ui-react';
 
 export default class Settings extends React.Component {
 
@@ -13,7 +13,8 @@ export default class Settings extends React.Component {
             email: this.props.user.email,
             introduction: this.props.user.introduction,
             password: "",
-            password2: ""
+            password2: "",
+			open: false
         }
     }
 
@@ -50,11 +51,47 @@ export default class Settings extends React.Component {
                 this.setState({usernameError: "Käyttäjätunnus on varattu."});
             }
         });
+	}
+	
+	showConfirm=() => this.setState({ open: true })
+	
+	handleConfirm(id) {
+		return (event) => {
+			event.preventDefault();
+			this.setState({ open: false });
+			this.deleteUser(id);
+		}
+	}
 		
-    }
+	handleCancel = () => this.setState({ open: false })
+	
+	deleteUser = (id) => {
+		let onDeleteUser = {
+            method: "DELETE",
+			headers: {"Content-Type": "application/json"},
+			credentials: "include",
+        };
+        fetch("/api/user/" + id, onDeleteUser).then((response) => {
+            if (response.ok) {
+				localStorage.removeItem("user");
+				window.location.href = "/login";
+            } else {
+			console.log(response.statusText);
+			}
+			}).catch((error) => {
+			console.log(error);
+			})
+	}
     
     render() {
         console.log(this.props.user);
+		
+		let fixModal = {
+            marginTop: 0,
+            marginLeft: "auto",
+            marginRight: "auto"
+        };
+		
 	return(
 	    <Container text>
 			<h1>Asetukset</h1>
@@ -85,7 +122,7 @@ export default class Settings extends React.Component {
 					label="Puhelinnumero"
 			        required />
 			    <Form.Field>
-				<Upload user={this.props.user} trigger={<Button>Vaihda profiilikuvaa</Button>} />
+					<Upload user={this.props.user} trigger={<Button>Vaihda profiilikuvaa</Button>} />
 				</Form.Field>
 				<Form.TextArea onChange={this.onChange}
 			        name="introduction"
@@ -106,6 +143,15 @@ export default class Settings extends React.Component {
 			           value={this.state.password2}
 			           error={this.state.passwordError}
 					   required />
+				<Form.Button onClick={this.showConfirm}
+							color="red">Poista tili</Form.Button>
+				<Confirm style={fixModal}
+							open={this.state.open}
+							onCancel={this.handleCancel}
+							onConfirm={this.handleConfirm(this.props.user.id)} 
+							header="Olet poistamassa käyttäjätilisi lopullisesti"
+							content="Oletko varma?"
+							size="small"/>
 				<Form.Button color="green" type="submit">Päivitä tiedot</Form.Button>
 			    <br/>
                 <a href="/">Takaisin</a>

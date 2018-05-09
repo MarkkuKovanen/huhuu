@@ -1,6 +1,7 @@
 let express = require("express");
 let mongoose = require("mongoose");
 let userModel = require("../models/user");
+let postModel = require("../models/post");
 let profilepicModel = require("../models/profilepic");
 let auth = require("../authorize");
 let multer = require("multer");
@@ -18,7 +19,7 @@ userRouter.post('/', (req, res, next) => {
                                console.log(err);
                                return next(err);
                            }
-                           res.json("register succesfull");
+                           res.json("register succesful");
                        }
     );
 });
@@ -120,13 +121,17 @@ userRouter.put('/:id/picture',
 
 // Delete user
 userRouter.delete('/:id', auth.isAuthenticated, function(req, res, next) {
-    if (req.user.isAdmin || req.params.id === req.user._id) {
-        userModel.findOneAndRemove({_id: req.params.id}, function(err, user) {
+    if (req.user.isAdmin || req.params.id == req.user._id) {
+        postModel.remove({'user._id': req.params.id}, function(err, posts) {
+			if (err) throw err;
+			console.log('Deleted posts: ' + posts);
+		});
+		userModel.findOneAndRemove({_id: req.params.id}, function(err, user) {
 	    if (err) throw err;
 	    res.json(user);
 	    console.log('Deleted: ' + user);
         });
-    } else {
+	} else {
         res.send(401);
     }
 });

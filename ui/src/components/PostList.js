@@ -60,7 +60,7 @@ export default class PostList extends React.Component {
     handleConfirm(id) {
         return (event) => {
             event.preventDefault();
-            this.setState({ open: false });
+            this.setState({ isConfirmOpen: false });
 
             let onDeletePost = {
                 method: "DELETE",
@@ -79,10 +79,7 @@ export default class PostList extends React.Component {
         }
     }
 
-    deletePost = (id) => {
         
-    }
-    
     handleCancel = () => this.setState({ isConfirmOpen: false })
     
     render () {
