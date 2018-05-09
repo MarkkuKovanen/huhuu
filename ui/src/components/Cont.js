@@ -33,7 +33,7 @@ class Cont extends React.Component {
     onLogin = (user) => {
         let request = {
             method: "POST",
-            credentials: 'same-origin',
+            credentials: 'include',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(user)
         }
@@ -45,9 +45,10 @@ class Cont extends React.Component {
                         isLogged: true,
                         user: data,
                     });
-                    this.getPostList();
                 });
             }
+        }, (error) => {
+            console.log(error);
         });
     }
 

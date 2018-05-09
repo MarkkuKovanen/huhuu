@@ -17,7 +17,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-mongoose.connect(config.mongodbUrl);
+mongoose.connect("mongodb://huhuu:hnXz7WxQMijiyARc3@ds159707.mlab.com:59707/huhuu");
 
 app.use(session(
     {
