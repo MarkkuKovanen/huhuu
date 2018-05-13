@@ -17,7 +17,7 @@ const app = express();
 
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://huhuu:hnXz7WxQMijiyARc3@ds159707.mlab.com:59707/huhuu");
+mongoose.connect(config.mongodbUrl);
 
 app.use(session(
     {
@@ -57,7 +57,6 @@ app.use("/api/search", searchRouter);
 app.post('/api/login',
          passport.authenticate('local'),
          (req, res) => {
-             console.log(req.user);
              res.json({
                  id: req.user._id,
                  username: req.user.username,

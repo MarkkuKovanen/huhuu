@@ -54,7 +54,6 @@ export default class Settings extends React.Component {
     }
     
     render() {
-        console.log(this.props.user);
 	return(
 	    <Container text>
 			<h1>Asetukset</h1>

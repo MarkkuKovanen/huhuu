@@ -15,19 +15,44 @@ class Cont extends React.Component {
         this.state = {
             isLogged: false,
             user: undefined,
+            isLoaded: false
         }
     }
 
     componentDidMount() {
-        if (document.cookie) {
-            let user = localStorage.getItem("user");
-            if (user) {
-                this.setState({
-                    isLogged: true,
-                    user: JSON.parse(user),
-                });
-            }
+        let user = localStorage.getItem("user");
+        if (user) {
+            this.setState({
+                isLogged: true,
+                user: JSON.parse(user),
+            });
         }
+        let request = {
+            method: "GET",
+            credentials: 'include',
+            mode: "cors",
+            headers: {"Content-Type": "application/json"}
+        }
+        fetch("/api/user", request).then((response) => {
+            if (response.ok) {
+                response.json().then((data) => {
+                    this.setState({
+                        isLogged: true,
+                        user: data,
+                        isLoaded: true
+                    });
+                });
+            } else {
+                this.setState({
+                    isLogged: false,
+                    user: {},
+                    isLoaded: true
+                })
+            }
+        }, (error) => {
+                console.log(error.message);
+            }
+        );
     }
 
     onLogin = (user) => {
@@ -56,6 +81,7 @@ class Cont extends React.Component {
         let request = {
             method: "POST",
             credentials: 'same-origin',
+            mode: "cors",
             headers: {"Content-Type": "application/json"}
         }
         fetch("/api/logout", request).then((response) => {
@@ -108,43 +134,47 @@ class Cont extends React.Component {
     }
 
     render() {
-	      return(
-            <Switch>
-                <Route exact path="/login"
-                       render = {
-                           () => this.state.isLogged ?
-                               <Redirect to="/" /> :
-                               <Login onLogin={this.onLogin} />
-                       }
-                />
-                <Route exact path="/register"
-                       render = {
-                           () =>
-                               <SignupForm onRegister={this.onRegister} />
-                       }
-                />
+        if (this.state.isLoaded) {
+	          return (
+                <Switch>
+                    <Route exact path="/login"
+                           render = {
+                               () => this.state.isLogged ?
+                                   <Redirect to="/" /> :
+                                   <Login onLogin={this.onLogin} />
+                           }
+                    />
+                    <Route exact path="/register"
+                           render = {
+                               () =>
+                                   <SignupForm onRegister={this.onRegister} />
+                           }
+                    />
 
-                <Route path="/"
-                       render = {
-                           () => this.state.isLogged ?
-                               <Container fluid>
-                                   <Header onLogout={this.onLogout}
-				                                   getSearchedUser={this.getSearchedUser}
-                                   />
+                    <Route path="/"
+                           render = {
+                               () => this.state.isLogged ?
+                                   <Container fluid>
+                                       <Header onLogout={this.onLogout}
+				                                                getSearchedUser={this.getSearchedUser}
+                                       />
 
-                                   <Switch>
-                                       <Route exact path="/settings" render={() =>
-                                           <Settings user={this.state.user}/>
-                                       } />
-                                       <Route exact path="/user/:username" render={this.mainRoute} />
-                                       <Route exact path="/" render={this.mainRoute} />
-                                   </Switch>
-                               </Container> :
-                               <Redirect to="/login" />
-                       }
-                />
-            </Switch>
-	      )
+                                       <Switch>
+                                           <Route exact path="/settings" render={() =>
+                                               <Settings user={this.state.user}/>
+                                           } />
+                                           <Route exact path="/user/:username" render={this.mainRoute} />
+                                           <Route exact path="/" render={this.mainRoute} />
+                                       </Switch>
+                                   </Container> :
+                                   <Redirect to="/login" />
+                           }
+                    />
+                </Switch>
+	          )
+        } else {
+            return (<p>Loading...</p>)
+        }
     }
 }
 

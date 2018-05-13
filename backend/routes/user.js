@@ -48,14 +48,18 @@ userRouter.put("/:id", auth.isAuthenticated, function(req,res) {
     }
 });
 
-// List all users
-userRouter.get('/', auth.isAdmin, function (req, res, next) {
-    userModel.find(function(err, users) {
-	if (err) throw err;
-	console.log(users);
-	res.status(200);
-	res.json(users);
-    });	
+// Get user that is logged in
+userRouter.get('/', auth.isAuthenticated, function (req, res, next) {
+    res.json({
+        id: req.user._id,
+        username: req.user.username,
+        email: req.user.email,
+        phone: req.user.phone,
+        name: req.user.name,
+        introduction: req.user.introduction,
+        isAdmin: req.user.isAdmin
+    });
+
 });
 
 // Get user info

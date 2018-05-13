@@ -10,9 +10,16 @@ export default class Upload extends React.Component {
             pic: "/api/user/" + this.props.user.id + "/picture",
             open: this.props.open
         }
+        this.reader = new FileReader();
+        this.reader.addEventListener("load", () => {
+            console.log(this.reader.readyState);
+            this.setState({
+                pic: this.reader.result
+            });
+        }, false);
     }
-    
-    upload = () => {       
+
+    upload = () => {
         if (this.state.file) {
             let formData = new FormData();
             formData.append('photo', this.state.file);
@@ -27,20 +34,22 @@ export default class Upload extends React.Component {
                         pic: "/api/user/" + this.props.user.id + "/picture",
                         open: false
                     });
+                    window.location.reload(); //TODO: find a better way to update the profile picture.
                 }
             });
         }
     }
 
-    fileSelected = (event) => { 
+    fileSelected = (event) => {
+        this.reader.readAsDataURL(event.target.files[0]);
         this.setState({
-            file: event.target.files[0]
+            file: event.target.files[0],
         });
     }
-    
+
     render() {
         let fixModal = {
-            marginTop: 0,
+            marginTop: "50px",
             marginLeft: "auto",
             marginRight: "auto"
         };
@@ -58,11 +67,12 @@ export default class Upload extends React.Component {
                             <Form.Field>
                                 <label>Valitse kuva</label>
                                 <input type="file"
+                                       accept="image/*"
                                        name="file"
                                        onChange={this.fileSelected} />
                             </Form.Field>
                             <Form.Button content="Lähetä" />
-                        </Form>    
+                        </Form>
                     </Modal.Description>
                 </Modal.Content>
             </Modal>
