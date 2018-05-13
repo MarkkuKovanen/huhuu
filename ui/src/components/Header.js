@@ -1,6 +1,6 @@
 import {Link} from 'react-router-dom';
 import React from 'react';
-import {Menu} from 'semantic-ui-react';
+import {Menu,  Icon} from 'semantic-ui-react';
 import Search from './Search';
 
 export default class Header extends React.Component {
@@ -27,6 +27,11 @@ export default class Header extends React.Component {
                             Kirjaudu ulos
                         </Link>
                     </Menu.Item>
+					<Menu.Item>
+						<a target="_blank" href="https://github.com/MarkkuKovanen/huhuu">
+						<Icon name="question circle"/>
+						</a>
+					</Menu.Item>
                     <Menu.Item position="right">
                         <Search noResultsMessage="Käyttäjiä ei löytynyt."
                                 placeholder="Hae käyttäjää" />

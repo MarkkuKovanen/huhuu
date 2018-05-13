@@ -58,6 +58,8 @@ export default class Login extends React.Component {
                     </Form.Button>
                     <Link to="/register">Rekisteröi uusi käyttäjä</Link>
                 </Form>
+				<br/>
+				<a target="_blank" href="https://github.com/MarkkuKovanen/huhuu">About Huhuu</a>
             </Container>
         )
     }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Upload from './Upload';
-import {Container, Form, Button} from 'semantic-ui-react';
+import {Container, Form, Button, Confirm} from 'semantic-ui-react';
 
 export default class Settings extends React.Component {
 
@@ -13,7 +13,8 @@ export default class Settings extends React.Component {
             email: this.props.user.email,
             introduction: this.props.user.introduction,
             password: "",
-            password2: ""
+            password2: "",
+			open: false
         }
     }
 
@@ -50,65 +51,108 @@ export default class Settings extends React.Component {
                 this.setState({usernameError: "Käyttäjätunnus on varattu."});
             }
         });
+	}
+	
+	showConfirm=() => this.setState({ open: true })
+	
+	handleConfirm(id) {
+		return (event) => {
+			event.preventDefault();
+			this.setState({ open: false });
+			this.deleteUser(id);
+		}
+	}
 		
-    }
+	handleCancel = () => this.setState({ open: false })
+	
+	deleteUser = (id) => {
+		let onDeleteUser = {
+            method: "DELETE",
+			headers: {"Content-Type": "application/json"},
+			credentials: "include",
+        };
+        fetch("/api/user/" + id, onDeleteUser).then((response) => {
+            if (response.ok) {
+				localStorage.removeItem("user");
+				window.location.href = "/login";
+            } else {
+			console.log(response.statusText);
+			}
+			}).catch((error) => {
+			console.log(error);
+			})
+	}
     
     render() {
+
+		
+		let fixModal = {
+            marginTop: "50px",
+            marginLeft: "auto",
+            marginRight: "auto"
+        };
 	return(
 	    <Container text>
-			<h1>Asetukset</h1>
-			<Form onSubmit={this.onSubmit}>
-			    <Form.Input onChange={this.onChange}
-			        name="username"
-			        type="text"
-			        value={this.state.username}
-					label="Käyttäjätunnus"
-					required
-					error={this.state.usernameError} />
-			    <Form.Input onChange={this.onChange}
-			        name="name"
-			        type="text"
-			        value={this.state.name}
-					label="Nimi"
-			        required />
-                <Form.Input onChange={this.onChange}
-			        name="email"
-			        type="email"
-			        value={this.state.email}
-					label="Sähköpostiosoite"
-			        required />
-			    <Form.Input onChange={this.onChange}
-			        name="phone"
-			        type="text"
-			        value={this.state.phone}
-					label="Puhelinnumero"
-			        required />
-			    <Form.Field>
-				<Upload user={this.props.user} trigger={<Button>Vaihda profiilikuvaa</Button>} />
-				</Form.Field>
-				<Form.TextArea onChange={this.onChange}
-			        name="introduction"
-			        type="text"
-			        value={this.state.introduction}
-					label="Kirjoita itsestäsi lyhyt esittely"
+			    <h1>Asetukset</h1>
+          <Upload user={this.props.user} trigger={<Button>Vaihda profiilikuvaa</Button>} />
+			    <Form onSubmit={this.onSubmit}>
+			        <Form.Input onChange={this.onChange}
+			                    name="username"
+			                    type="text"
+			                    value={this.state.username}
+					    label="Käyttäjätunnus"
+					    required
+					    error={this.state.usernameError} />
+			        <Form.Input onChange={this.onChange}
+			                    name="name"
+			                    type="text"
+			                    value={this.state.name}
+					    label="Nimi"
+			                    required />
+              <Form.Input onChange={this.onChange}
+			                    name="email"
+			                    type="email"
+			                    value={this.state.email}
+					    label="Sähköpostiosoite"
+			                    required />
+			        <Form.Input onChange={this.onChange}
+			                    name="phone"
+			                    type="text"
+			                    value={this.state.phone}
+					    label="Puhelinnumero"
+			                    required />
+				      <Form.TextArea onChange={this.onChange}
+			                       name="introduction"
+			                       type="text"
+			                       value={this.state.introduction}
+					    label="Kirjoita itsestäsi lyhyt esittely"
 			        />
-				<Form.Input onChange={this.onChange}
-			        name="password"
-			        type="password"
-			        value={this.state.password}
-					label="Salasana"
-			        required />
-			    <Form.Input onChange={this.onChange}
-			           label="Vahvista salasana"
-					   name="password2"
-			           type="password"
-			           value={this.state.password2}
-			           error={this.state.passwordError}
-					   required />
-				<Form.Button color="green" type="submit">Päivitä tiedot</Form.Button>
-			    <br/>
-                <a href="/">Takaisin</a>
-		    </Form>
-		</Container>    
+				      <Form.Input onChange={this.onChange}
+			                    name="password"
+			                    type="password"
+			                    value={this.state.password}
+					    label="Salasana"
+			                    required />
+			        <Form.Input onChange={this.onChange}
+			                    label="Vahvista salasana"
+					                name="password2"
+			                    type="password"
+			                    value={this.state.password2}
+			                    error={this.state.passwordError}
+					                required />
+				      <Form.Button onClick={this.showConfirm}
+							    color="red">Poista tili</Form.Button>
+				      <Confirm style={fixModal}
+							open={this.state.open}
+							onCancel={this.handleCancel}
+							onConfirm={this.handleConfirm(this.props.user.id)} 
+							header="Olet poistamassa käyttäjätilisi lopullisesti"
+							content="Oletko varma?"
+							size="small"/>
+				      <Form.Button color="green" type="submit">Päivitä tiedot</Form.Button>
+			        <br/>
+              <a href="/">Takaisin</a>
+		      </Form>
+		  </Container>    
 	)}
 }

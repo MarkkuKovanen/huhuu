@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {Item, Button, Confirm} from 'semantic-ui-react';
+import {Item, Button, Confirm, Label, Icon, Popup} from 'semantic-ui-react';
 
 const prettyDate = require('pretty-date');
 
@@ -60,7 +60,7 @@ export default class PostList extends React.Component {
     handleConfirm(id) {
         return (event) => {
             event.preventDefault();
-            this.setState({ open: false });
+            this.setState({ isConfirmOpen: false });
 
             let onDeletePost = {
                 method: "DELETE",
@@ -79,10 +79,7 @@ export default class PostList extends React.Component {
         }
     }
 
-    deletePost = (id) => {
         
-    }
-    
     handleCancel = () => this.setState({ isConfirmOpen: false })
     
     render () {
@@ -111,9 +108,17 @@ export default class PostList extends React.Component {
                                 {prettyDate.format(new Date(post.created))}
                             </Item.Meta>
                             <Item.Description>{post.message}</Item.Description>
-                            {this.props.user.id === post.user._id &&
-                             <Item.Extra>
-                                 <div>
+                            <Item.Extra>
+								<Popup trigger={<Icon circular name="like" 
+										color="red"	
+										floated="left"/>}>
+										Tykkää(Ei toiminnallisuutta)
+								</Popup>
+								<Label pointing="left">
+									15 käyttäjää tykkää tästä
+								</Label>								
+							{this.props.user.id === post.user._id &&
+								<div>
                                      <Button onClick={this.showConfirm}
                                              floated="right"
                                              color="red"
@@ -126,10 +131,10 @@ export default class PostList extends React.Component {
                                               header="Olet poistamassa tämän huhuilun"
                                               content="Oletko varma?"
                                               size="small"/>
-                                 </div>
-                             </Item.Extra>
-                            }
-                        </Item.Content>
+                                </div>
+							}
+                            </Item.Extra>
+						</Item.Content>
                     </Item>
                 )
             }       
