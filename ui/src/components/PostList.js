@@ -1,147 +1,140 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
-import {Item, Button, Confirm, Label, Icon, Popup} from 'semantic-ui-react';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Item, Button, Confirm, Label, Icon, Popup } from "semantic-ui-react";
 
-const prettyDate = require('pretty-date');
+const prettyDate = require("pretty-date");
 
 export default class PostList extends React.Component {
-    state = {isConfirmOpen: false};
-    
-    loadPostList() {
-        let query = {
-            method:"GET",
-            headers:{"Content-Type":"application/json"},
-            credentials: "same-origin"
-        }
-        let url = "/api/post/";
-        if (!this.state.feed) {
-            url += this.state.username;
-        }
-        fetch(url, query).then((response) => {
-            if (response.ok) {
-                response.json().then((data) => {
-                    this.setState({
-                        postList: data
-                    });
-                })
-            } else {
-                console.log(response.statusText);
-            }
-        }).catch((error) => {
-            console.log(error);
-        })
+    constructor(props) {
+        super(props);
+        this.state = {
+            postList: props.postList,
+            isConfirmOpen: false
+        };
     }
-    
+
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.username !== prevState.username ||
-            nextProps.feed !== prevState.feed) {
+        if (nextProps.postList !== prevState.postList) {
             return {
-                username: nextProps.username,
-                feed: nextProps.feed,
-                postList: null,
-            }
+                postList: nextProps.postList,
+                isConfirmOpen: prevState.isConfirmOpen
+            };
         } else {
             return null;
         }
     }
 
-    componentDidMount() {
-        this.loadPostList();
-    }
+    showConfirm = id => {
+        return () => {
+            this.setState({
+                isConfirmOpen: true,
+                selectedPost: id
+            });
+        };
+    };
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.state.postList === null) {
-            this.loadPostList();
-        }
-    }
-
-    showConfirm = () => this.setState({ isConfirmOpen: true })
-    
-    handleConfirm(id) {
-        return (event) => {
-            event.preventDefault();
-            this.setState({ isConfirmOpen: false });
-
-            let onDeletePost = {
-                method: "DELETE",
-                headers: {"Content-Type": "application/json"},
-                credentials: "same-origin",
-            };
-            fetch("/api/post/" + id, onDeletePost).then((response) => {
+    handleConfirm = event => {
+        event.preventDefault();
+        let onDeletePost = {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            credentials: "include"
+        };
+        fetch("/api/post/" + this.state.selectedPost, onDeletePost)
+            .then(response => {
                 if (response.ok) {
-                    this.loadPostList();
+                    this.setState({
+                        postList: this.state.postList.filter(
+                            post => post._id !== this.state.selectedPost
+                        )
+                    });
+                    this.setState({ isConfirmOpen: false });
                 } else {
                     console.log(response.statusText);
                 }
-            }).catch((error) => {
-                console.log(error);
             })
-        }
-    }
+            .catch(error => {
+                console.log(error);
+            });
+    };
 
-        
-    handleCancel = () => this.setState({ isConfirmOpen: false })
-    
-    render () {
+    handleCancel = () => this.setState({ isConfirmOpen: false });
+
+    render() {
         if (!this.state.postList) {
-            return (
-                <div>Loading...</div>
-            )
+            return <div>Loading...</div>;
         } else {
-            let posts = {}
+            let posts = {};
             let fixModal = {
                 marginTop: 0,
                 marginLeft: "auto",
                 marginRight: "auto"
             };
             if (this.state.postList.length === 0) {
-                posts = <p>No posts to show</p>
+                posts = <p>No posts to show</p>;
             } else {
-                posts = this.state.postList.reverse().map((post) =>
+                posts = this.state.postList.map(post => (
                     <Item key={post._id}>
-                        <Item.Image size="mini" src={"/api/user/" + post.user._id + "/picture"} />
+                        <Item.Image
+                            size="mini"
+                            src={"/api/user/" + post.user._id + "/picture"}
+                        />
                         <Item.Content>
                             <Item.Header>
-                                <Link to={"/user/" + post.user.username}>{post.user.username}</Link>
+                                <Link to={"/user/" + post.user.username}>
+                                    {post.user.username}
+                                </Link>
                             </Item.Header>
                             <Item.Meta>
                                 {prettyDate.format(new Date(post.created))}
                             </Item.Meta>
                             <Item.Description>{post.message}</Item.Description>
                             <Item.Extra>
-								<Popup trigger={<Icon circular name="like" 
-										color="red"	
-										floated="left"/>}>
-										Tykkää(Ei toiminnallisuutta)
-								</Popup>
-								<Label pointing="left">
-									15 käyttäjää tykkää tästä
-								</Label>								
-							{this.props.user.id === post.user._id &&
-								<div>
-                                     <Button onClick={this.showConfirm}
-                                             floated="right"
-                                             color="red"
-                                             icon="remove"
-                                             size="mini"/>
-                                     <Confirm style={fixModal}
-                                              open={this.state.isConfirmOpen}
-                                              onCancel={this.handleCancel}
-                                              onConfirm={this.handleConfirm(post._id)} 
-                                              header="Olet poistamassa tämän huhuilun"
-                                              content="Oletko varma?"
-                                              size="small"/>
-                                </div>
-							}
+                                <Popup
+                                    trigger={
+                                        <Icon
+                                            circular
+                                            name="like"
+                                            color="red"
+                                            floated="left"
+                                        />
+                                    }
+                                >
+                                    Tykkää(Ei toiminnallisuutta)
+                                </Popup>
+                                <Label pointing="left">
+                                    15 käyttäjää tykkää tästä
+                                </Label>
+                                {this.props.user.id === post.user._id && (
+                                    <div>
+                                        <Button
+                                            onClick={this.showConfirm(post._id)}
+                                            floated="right"
+                                            color="red"
+                                            icon="remove"
+                                            size="mini"
+                                        />
+                                    </div>
+                                )}
                             </Item.Extra>
-						</Item.Content>
+                        </Item.Content>
                     </Item>
-                )
-            }       
-            return(
-                <Item.Group divided>
-                    {posts}
-                </Item.Group>
-            )}
+                ));
+            }
+            return (
+                <div>
+                    <Confirm
+                        style={fixModal}
+                        open={this.state.isConfirmOpen}
+                        onCancel={this.handleCancel}
+                        onConfirm={this.handleConfirm}
+                        header="Olet poistamassa tämän huhuilun"
+                        content="Oletko varma?"
+                        size="small"
+                    />
+                    <Item.Group divided>{posts}</Item.Group>
+                </div>
+            );
+        }
     }
 }
